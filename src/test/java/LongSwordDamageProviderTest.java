@@ -1,13 +1,10 @@
-import com.mendor.DamageInstance;
-import com.mendor.IDamageProvider;
-import com.mendor.RandomRoll;
-import com.mendor.damageproviders.LongSword;
+import com.mendor.pathfinder.DamageInstance;
+import com.mendor.pathfinder.IDamageProvider;
+import com.mendor.pathfinder.util.RandomRoll;
+import com.mendor.pathfinder.damageproviders.LongSword;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-
-
-import javax.naming.OperationNotSupportedException;
 
 import static org.junit.Assert.assertTrue;
 

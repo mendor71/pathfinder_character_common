@@ -1,8 +1,7 @@
-import com.mendor.CharacterAttributeDetails;
-import com.mendor.CharacterSkill;
-import com.mendor.types.AttributeType;
-import com.mendor.types.SkillType;
-import com.mendor.SimpleSkillProvider;
+import com.mendor.pathfinder.skills.CharacterSkill;
+import com.mendor.pathfinder.types.AttributeType;
+import com.mendor.pathfinder.types.SkillType;
+import com.mendor.pathfinder.skills.SimpleSkillProvider;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
