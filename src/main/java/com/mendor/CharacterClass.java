@@ -1,8 +1,5 @@
-package com.mendor.pclasses;
+package com.mendor;
 
-import com.mendor.CharacterSkill;
-import com.mendor.ICharacterClass;
-import com.mendor.SimpleSkillProvider;
 import com.mendor.types.ClassType;
 import com.mendor.types.SkillType;
 

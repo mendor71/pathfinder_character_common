@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.mendor.CharacterClassDetails;
 import com.mendor.PathfinderCharacter;
-import com.mendor.pclasses.CharacterClass;
+import com.mendor.CharacterClass;
 import com.mendor.types.ClassType;
 
 import java.io.IOException;

@@ -3,7 +3,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.mendor.*;
 import com.mendor.exceptions.NotEnoughSkillPointsException;
-import com.mendor.pclasses.CharacterClass;
+import com.mendor.CharacterClass;
 import com.mendor.races.HumanRace;
 import com.mendor.types.AttributeType;
 import com.mendor.types.ClassType;
