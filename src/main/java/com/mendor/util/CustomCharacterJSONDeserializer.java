@@ -1,9 +1,13 @@
-package com.mendor;
+package com.mendor.util;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.mendor.PathfinderCharacter;
+import com.mendor.SimpleCharacterAttributeManager;
+import com.mendor.SimpleCharacterClassManager;
+import com.mendor.SimpleCharacterSkillManager;
 
 import java.awt.*;
 import java.io.IOException;
@@ -21,11 +25,17 @@ public class CustomCharacterJSONDeserializer extends StdDeserializer<PathfinderC
         this.baseDeserializer = baseDeserializer;
     }
 
+    protected JsonNode getRoot() {
+        return root;
+    }
+
     @Override
     public PathfinderCharacter deserialize(JsonParser parser, DeserializationContext context) throws IOException {
         PathfinderCharacter pathfinderCharacter = new PathfinderCharacter();
 
         pathfinderCharacter.setAttributeManager(new SimpleCharacterAttributeManager());
+        pathfinderCharacter.setClassManager(new SimpleCharacterClassManager());
+        pathfinderCharacter.setSkillManager(new SimpleCharacterSkillManager());
 
         JsonNode root = parser.getCodec().readTree(parser);
         this.root = root;

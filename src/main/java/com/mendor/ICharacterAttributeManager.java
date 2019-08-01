@@ -13,4 +13,5 @@ public interface ICharacterAttributeManager {
     long decreaseAttributeValue(PathfinderCharacter character, AttributeType type, long minus);
     Set<CharacterAttributeDetails> getCharacterAttributes(PathfinderCharacter character);
     void setOnControl(PathfinderCharacter character, Set<CharacterAttributeDetails> controlObjects);
+    public CharacterAttributeDetails getAttributeDetails(PathfinderCharacter character, AttributeType type);
 }

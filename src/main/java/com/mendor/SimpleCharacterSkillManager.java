@@ -23,22 +23,28 @@ public class SimpleCharacterSkillManager implements ICharacterSkillManager {
             Set<CharacterSkill> classSkills = c.getCharacterClass().getClassSkills();
 
             classSkills.forEach( s -> {
-                if (s != null && !containsCharacterSkill(character, s.getSkillType()))
-                    characterSkillDetailsMap.get(character).add(new CharacterSkillDetails(s, CharacterSkill.defaultClassBonus));
+                if (s != null && !containsCharacterSkill(character, s.getSkillType())) {
+                    characterSkillDetailsMap.get(character).add(new CharacterSkillDetails(character, s, CharacterSkill.defaultClassBonus));
+                    character.addAttributeSkillListener(s.getAttributeType(), s.getSkillType());
+                }
             });
         });
     }
 
     @Override
-    public void setOnControl(PathfinderCharacter character, Set<CharacterSkillDetails> skillDetails) {
-        skillDetails.forEach(v -> {
-            v.setModifier(character.getAttributeModifier(v.getAttributeType()));
+    public void addAttributeSkillListeners(PathfinderCharacter character, Set<CharacterSkillDetails> skillDetails) {
+        skillDetails.forEach(s -> {
+            character.addAttributeSkillListener(s.getAttributeType(), s.getSkillType());
         });
+    }
 
+    @Override
+    public void setOnControl(PathfinderCharacter character, Set<CharacterSkillDetails> skillDetails) {
         if (!characterSkillDetailsMap.containsKey(character))
             characterSkillDetailsMap.put(character, new HashSet<>());
 
         characterSkillDetailsMap.get(character).addAll(skillDetails);
+        addAttributeSkillListeners(character, skillDetails);
     }
 
     @Override
@@ -49,7 +55,6 @@ public class SimpleCharacterSkillManager implements ICharacterSkillManager {
                     return d;
             }
         }
-
         return null;
     }
 
@@ -86,7 +91,7 @@ public class SimpleCharacterSkillManager implements ICharacterSkillManager {
             if (!characterSkillDetailsMap.containsKey(character))
                 throw new IllegalStateException("set character data before use this method");
 
-            characterSkillDetailsMap.get(character).add(new CharacterSkillDetails(simpleSkillProvider.getSkillByType(type), increaseOn));
+            characterSkillDetailsMap.get(character).add(new CharacterSkillDetails(character, simpleSkillProvider.getSkillByType(type), increaseOn));
             newValue = increaseOn;
         }
 
@@ -107,6 +112,11 @@ public class SimpleCharacterSkillManager implements ICharacterSkillManager {
     public void setCharacterBaseSkillPoints(PathfinderCharacter character) {
         if (!characterSkillPointsMap.containsKey(character))
             characterSkillPointsMap.put(character, new Tuple2<>(character.getSkillPointsProvidedByClasses(), 0L));
+    }
+
+    @Override
+    public void setFreeAndUsedSkillPoints(PathfinderCharacter character, long free, long used) {
+        characterSkillPointsMap.put(character, new Tuple2<>(free, used));
     }
 
     @Override

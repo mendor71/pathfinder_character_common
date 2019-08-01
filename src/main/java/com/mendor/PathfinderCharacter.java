@@ -59,6 +59,17 @@ public class PathfinderCharacter  {
         setStartHitPoints();
     }
 
+    public void addAttributeSkillListener(AttributeType attributeType, SkillType skillType) {
+        if (this.attributeManager == null)
+            throw new IllegalStateException("attributes manager not set!");
+
+        if (this.skillManager == null)
+            throw new IllegalStateException("skill manager not set!");
+
+        CharacterSkillDetails skillDetails =  this.skillManager.getCharacterSkillDetails(this, skillType);
+        this.attributeManager.getAttributeDetails(this, attributeType).addListener(skillDetails);
+    }
+
     public long increaseSkillPoints(SkillType type, long value) throws NotEnoughSkillPointsException {
         return skillManager.increaseSkillPoints(this, type, value);
     }
@@ -226,12 +237,25 @@ public class PathfinderCharacter  {
         this.attributeManager.setOnControl(this, details);
     }
 
-    public void setClasses() {
+    public void setClasses(Set<CharacterClassDetails> details) {
+        if (this.classManager == null)
+            throw new IllegalStateException("classes manager not set!");
 
+        this.classManager.setOnControl(this, details);
     }
 
-    public void setSkillSet() {
+    public void setSkillSet(Set<CharacterSkillDetails> details) {
+        if (this.skillManager == null)
+            throw new IllegalStateException("skills manager not set!");
 
+        this.skillManager.setOnControl(this, details);
+    }
+
+    public void setFreeAndUsedSkillPoints(long free, long used) {
+        if (this.skillManager == null)
+            throw new IllegalStateException("skills manager not set!");
+
+        this.skillManager.setFreeAndUsedSkillPoints(this, free, used);
     }
 
     public IDamageProvider getDamageProvider() {

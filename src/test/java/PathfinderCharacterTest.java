@@ -1,5 +1,4 @@
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.Version;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.mendor.*;
@@ -9,6 +8,7 @@ import com.mendor.races.HumanRace;
 import com.mendor.types.AttributeType;
 import com.mendor.types.ClassType;
 import com.mendor.types.SkillType;
+import com.mendor.util.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -100,20 +100,6 @@ public class PathfinderCharacterTest {
     }
 
     @Test
-    public void testSerializer() throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        SimpleModule module = new SimpleModule("CustomCharacterSerializer", new Version(1, 0, 0, null, null, null));
-        module.addSerializer(PathfinderCharacter.class, new PathFinderCharacterJSONSerializer());
-
-        objectMapper.registerModule(module);
-
-        String val = objectMapper.writeValueAsString(testCharacter);
-
-        System.out.println(val);
-    }
-
-    @Test
     public void testDecoratorBasedSerializerAndDeserializer() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
 
@@ -122,20 +108,27 @@ public class PathfinderCharacterTest {
         IJSONSerializer sWithAttributes = new CustomCharacterJSONSerializerWithAttributes(sWithClasses);
         IJSONSerializer sWithSkills = new CustomCharacterJSONSerializerWithSkills(sWithAttributes);
 
-        sWithSkills.preSerialize(testCharacter);
-
-        String serializedData = mapper.writeValueAsString(sWithSkills.getResult());
+        String serializedData = mapper.writeValueAsString(sWithSkills.serialize(testCharacter));
 
         CustomCharacterJSONDeserializer dBase = new CustomCharacterJSONDeserializer(PathfinderCharacter.class);
-        CustomCharacterJSONDeserializer dWithAttributes = new CustomCharacterJSONDeserializerWihAttributes(dBase);
+        CustomCharacterJSONDeserializer dWithClasses = new CustomCharacterJSONDeserializerWithClasses(dBase);
+        CustomCharacterJSONDeserializer dWithAttributes = new CustomCharacterJSONDeserializerWihAttributes(dWithClasses);
+        CustomCharacterJSONDeserializer dWithSkills = new CustomCharacterJSONDeserializerWithSkills(dWithAttributes);
 
         ObjectMapper objectMapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
-        module.addDeserializer(PathfinderCharacter.class, dWithAttributes);
+        module.addDeserializer(PathfinderCharacter.class, dWithSkills);
         objectMapper.registerModule(module);
 
-        PathfinderCharacter character = objectMapper.readValue(serializedData, PathfinderCharacter.class);
+        PathfinderCharacter deserializedCharacter = objectMapper.readValue(serializedData, PathfinderCharacter.class);
 
-        System.out.println(character);
+        assertEquals(testCharacter.getName(), deserializedCharacter.getName());
+        assertEquals(testCharacter.getUUID(), deserializedCharacter.getUUID());
+        assertEquals(testCharacter.getLevel(), deserializedCharacter.getLevel());
+        assertEquals(testCharacter.getCharacterClasses().size(), deserializedCharacter.getCharacterClasses().size());
+        assertEquals(testCharacter.getArmorClass(), deserializedCharacter.getArmorClass());
+        assertEquals(testCharacter.getFreeSkillPoints(), deserializedCharacter.getFreeSkillPoints());
+        assertEquals(testCharacter.getAttributeModifier(AttributeType.ENDURANCE), deserializedCharacter.getAttributeModifier(AttributeType.ENDURANCE));
+        assertEquals(testCharacter.getSkillPoints(SkillType.Survival), deserializedCharacter.getSkillPoints(SkillType.Survival));
     }
 }

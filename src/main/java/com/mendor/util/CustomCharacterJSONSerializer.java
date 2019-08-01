@@ -1,13 +1,15 @@
-package com.mendor;
+package com.mendor.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.mendor.IJSONSerializer;
+import com.mendor.PathfinderCharacter;
 
 import java.awt.*;
 
 public class CustomCharacterJSONSerializer implements IJSONSerializer {
-    protected ObjectNode root = JsonNodeFactory.instance.objectNode();
+
     protected IJSONSerializer basePreSerializer;
 
     public CustomCharacterJSONSerializer() {}
@@ -17,16 +19,12 @@ public class CustomCharacterJSONSerializer implements IJSONSerializer {
     }
 
     @Override
-    public void preSerialize(PathfinderCharacter character) {
-        appendCharacterData(character);
+    public ObjectNode serialize(PathfinderCharacter character) {
+        return appendCharacterData(character);
     }
 
-    @Override
-    public JsonNode getResult() {
-        return root;
-    }
-
-    private void appendCharacterData(PathfinderCharacter character) {
+    private ObjectNode appendCharacterData(PathfinderCharacter character) {
+        ObjectNode root = JsonNodeFactory.instance.objectNode();
         ObjectNode properties = root.putObject("characterProperties");
 
         properties.put("uuid", character.getUUID());
@@ -52,5 +50,6 @@ public class CustomCharacterJSONSerializer implements IJSONSerializer {
             hairColorNode.put("G", hairColor.getGreen());
             hairColorNode.put("B", hairColor.getBlue());
         }
+        return root;
     }
 }

@@ -54,7 +54,8 @@ public class SimpleCharacterAttributeManager implements ICharacterAttributeManag
         });
     }
 
-    private CharacterAttributeDetails getAttributeDetails(PathfinderCharacter character, AttributeType type) {
+    @Override
+    public CharacterAttributeDetails getAttributeDetails(PathfinderCharacter character, AttributeType type) {
         List<CharacterAttributeDetails> attributeDetails = characterAttributeMap.get(character).stream()
                 .filter(v -> v.getType().equals(type))
                 .collect(Collectors.toList());

@@ -1,8 +1,11 @@
 package com.mendor;
 
 import com.mendor.types.AttributeType;
+import javafx.beans.Observable;
 
-public class CharacterAttributeDetails {
+import java.util.*;
+
+public class CharacterAttributeDetails implements IAttributeNotifier {
 
     private Long id;
     private AttributeType type;
@@ -10,6 +13,8 @@ public class CharacterAttributeDetails {
     private long modifier;
     private long tempValueBonus;
     private long tempModifierBonus;
+
+    private Set<IAttributeListener> listenersList = new HashSet<>();
 
     public CharacterAttributeDetails() {
     }
@@ -20,21 +25,38 @@ public class CharacterAttributeDetails {
         calculateModifier();
     }
 
+    @Override
+    public void addListener(IAttributeListener listener) {
+        listenersList.add(listener);
+        listener.update(this.valueNormal, this.modifier);
+    }
+
+    @Override
+    public void notifyListeners() {
+        listenersList.forEach(v -> v.update(valueNormal, modifier));
+    }
+
     public long increaseValue(long addValue) {
         valueNormal += addValue;
         modifier = calculateModifier();
+
+        notifyListeners();
+
         return valueNormal;
     }
 
     public long decreaseValue(long addValue) {
         valueNormal -= addValue;
         modifier = calculateModifier();
+
+        notifyListeners();
+
         return valueNormal;
     }
 
-    public CharacterAttributeDetails setModifier(long modifier) {
+    public void setModifier(long modifier) {
         this.modifier = modifier;
-        return this;
+        notifyListeners();
     }
 
     private long calculateModifier() {
@@ -58,6 +80,7 @@ public class CharacterAttributeDetails {
 
     public void setValueNormal(long valueNormal) {
         this.valueNormal = valueNormal;
+        notifyListeners();
     }
 
     public long getModifier() {
@@ -92,6 +115,4 @@ public class CharacterAttributeDetails {
     public long getTempModifierBonus() {
         return tempModifierBonus;
     }
-
-
 }

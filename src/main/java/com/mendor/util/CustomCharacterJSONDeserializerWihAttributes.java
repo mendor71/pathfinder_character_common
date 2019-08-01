@@ -1,9 +1,11 @@
-package com.mendor;
+package com.mendor.util;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.mendor.CharacterAttributeDetails;
+import com.mendor.PathfinderCharacter;
 import com.mendor.types.AttributeType;
 
 import java.io.IOException;
@@ -11,19 +13,26 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class CustomCharacterJSONDeserializerWihAttributes extends CustomCharacterJSONDeserializer {
+
     public CustomCharacterJSONDeserializerWihAttributes(Class<?> c) {
         super(c);
     }
 
     public CustomCharacterJSONDeserializerWihAttributes(CustomCharacterJSONDeserializer baseDeserializer) {
-        super(baseDeserializer);
+        super(PathfinderCharacter.class);
+        this.baseDeserializer = baseDeserializer;
+    }
+
+    @Override
+    protected JsonNode getRoot() {
+        return baseDeserializer.getRoot();
     }
 
     @Override
     public PathfinderCharacter deserialize(JsonParser parser, DeserializationContext context) throws IOException {
-        PathfinderCharacter character = super.deserialize(parser, context);
+        PathfinderCharacter character = baseDeserializer.deserialize(parser, context);
 
-        ArrayNode attributes = (ArrayNode) root.get("attributes");
+        ArrayNode attributes = (ArrayNode) getRoot().get("attributes");
 
         Set<CharacterAttributeDetails> attributeDetailsSet = new HashSet<>();
 

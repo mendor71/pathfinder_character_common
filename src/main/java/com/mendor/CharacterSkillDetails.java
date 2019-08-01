@@ -3,24 +3,32 @@ package com.mendor;
 import com.mendor.types.AttributeType;
 import com.mendor.types.SkillType;
 
-public class CharacterSkillDetails {
+import java.nio.file.Path;
+
+public class CharacterSkillDetails implements IAttributeListener {
     private long id;
 
     private CharacterSkill skill;
+    private PathfinderCharacter character;
+
     private long value;
     private long modifier;
     private long bonus;
 
-    public CharacterSkillDetails(CharacterSkill skill, long value) {
+    public CharacterSkillDetails() {
+    }
+
+    public CharacterSkillDetails(PathfinderCharacter character, CharacterSkill skill, long value) {
         this.skill = skill;
         this.value = value;
+        this.character = character;
     }
 
     public long increaseValue(long bonus) {
         return this.value += bonus;
     }
 
-    public long dncreaseValue(long minus) {
+    public long decreaseValue(long minus) {
         return this.value -= minus;
     }
 
@@ -70,5 +78,18 @@ public class CharacterSkillDetails {
 
     public long getBonus() {
         return bonus;
+    }
+
+    public PathfinderCharacter getCharacter() {
+        return character;
+    }
+
+    public void setCharacter(PathfinderCharacter character) {
+        this.character = character;
+    }
+
+    @Override
+    public void update(long normalValue, long modifier) {
+        this.modifier = modifier;
     }
 }

@@ -8,6 +8,7 @@ import java.util.Set;
 public interface ICharacterSkillManager {
 
     void setOnControlClassSkills(PathfinderCharacter character);
+    void addAttributeSkillListeners(PathfinderCharacter character, Set<CharacterSkillDetails> skillDetails);
     void setOnControl(PathfinderCharacter character, Set<CharacterSkillDetails> skillDetails);
     CharacterSkillDetails getCharacterSkillDetails(PathfinderCharacter character, SkillType type);
     Set<CharacterSkillDetails> getCharacterSkillDetailsSet(PathfinderCharacter character);
@@ -16,6 +17,9 @@ public interface ICharacterSkillManager {
     long getSkillPoints(PathfinderCharacter character, SkillType type);
 
     void setCharacterBaseSkillPoints(PathfinderCharacter character);
+
+    void setFreeAndUsedSkillPoints(PathfinderCharacter character, long free, long used);
+
     long getFreeSkillPoints(PathfinderCharacter character);
     long getUsedSkillPoints(PathfinderCharacter character);
 

@@ -1,7 +1,10 @@
-package com.mendor;
+package com.mendor.util;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.mendor.CharacterSkillDetails;
+import com.mendor.IJSONSerializer;
+import com.mendor.PathfinderCharacter;
 
 import java.util.Set;
 
@@ -12,19 +15,27 @@ public class CustomCharacterJSONSerializerWithSkills extends CustomCharacterJSON
     }
 
     @Override
-    public void preSerialize(PathfinderCharacter character) {
-        super.preSerialize(character);
+    public ObjectNode serialize(PathfinderCharacter character) {
+        ObjectNode root = basePreSerializer.serialize(character);
 
         Set<CharacterSkillDetails> characterSkills = character.getSkillSet();
 
-        ArrayNode skills = root.putArray("skills");
+        ObjectNode skills = root.putObject("skills");
+
+        skills.put("skillPointsFree", character.getFreeSkillPoints());
+        skills.put("skillPointsUsed", character.getUsedSkillPoints());
+
+        ArrayNode list = skills.putArray("list");
 
         for (CharacterSkillDetails d: characterSkills) {
-            ObjectNode skill = skills.addObject();
+            ObjectNode skill = list.addObject();
+
             skill.put("type", d.getSkillType().toString());
             skill.put("value", d.getValue());
             skill.put("modifier", d.getModifier());
             skill.put("bonus", d.getBonus());
+            skill.put("id", d.getId());
         }
+        return root;
     }
 }

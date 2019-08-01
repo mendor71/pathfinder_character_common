@@ -36,5 +36,14 @@ public enum SkillType {
     , Stealth
     , Survival
     , Swim
-    , UseMagicDevice
+    , UseMagicDevice;
+
+
+    public static SkillType byName(String name) {
+        for (SkillType d: values()) {
+            if (d.toString().equals(name))
+                return d;
+        }
+        return null;
+    }
 }

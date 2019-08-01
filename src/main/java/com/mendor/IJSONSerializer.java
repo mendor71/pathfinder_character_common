@@ -1,10 +1,10 @@
 package com.mendor;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.HashMap;
 
 public interface IJSONSerializer {
-    void preSerialize(PathfinderCharacter character);
-    JsonNode getResult();
+    ObjectNode serialize(PathfinderCharacter character);
 }
