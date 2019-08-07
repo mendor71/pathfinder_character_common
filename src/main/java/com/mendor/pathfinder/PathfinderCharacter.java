@@ -3,7 +3,7 @@ package com.mendor.pathfinder;
 import com.mendor.pathfinder.attributes.CharacterAttributeDetails;
 import com.mendor.pathfinder.attributes.ICharacterAttributeManager;
 import com.mendor.pathfinder.exceptions.NotEnoughSkillPointsException;
-import com.mendor.pathfinder.inventory.InventoryItem;
+import com.mendor.pathfinder.inventory.IInventoryItem;
 import com.mendor.pathfinder.pathfinderclasses.CharacterClassDetails;
 import com.mendor.pathfinder.pathfinderclasses.ICharacterClass;
 import com.mendor.pathfinder.pathfinderclasses.ICharacterClassManager;
@@ -28,7 +28,7 @@ public class PathfinderCharacter  {
     private ICharacterSkillManager skillManager;
 
     private IRace race;
-    private List<InventoryItem> inventoryItems = new ArrayList<>();
+    private List<IInventoryItem> IInventoryItems = new ArrayList<>();
     private long armorClass;
     private long level;
     private String name;
@@ -81,8 +81,8 @@ public class PathfinderCharacter  {
         return skillManager.increaseSkillPoints(this, type, value);
     }
 
-    public void addInventoryItem(InventoryItem inventoryItems) {
-        this.inventoryItems.add(inventoryItems);
+    public void addInventoryItem(IInventoryItem IInventoryItems) {
+        this.IInventoryItems.add(IInventoryItems);
     }
 
     public void heal(long value) {
@@ -285,8 +285,8 @@ public class PathfinderCharacter  {
         return name;
     }
 
-    public List<InventoryItem> getInventoryItems() {
-        return inventoryItems;
+    public List<IInventoryItem> getInventoryItems() {
+        return IInventoryItems;
     }
 
     public Long getAge() {
