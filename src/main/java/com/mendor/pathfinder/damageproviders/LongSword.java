@@ -1,13 +1,9 @@
 package com.mendor.pathfinder.damageproviders;
 
-import com.mendor.pathfinder.DamageInstance;
-import com.mendor.pathfinder.inventory.IInventoryItem;
 import com.mendor.pathfinder.types.DamageType;
 import com.mendor.pathfinder.NoChanceSaveRoll;
 
-import java.util.Random;
-
-public class LongSword extends AbstractPhysicalDamageProvider {
+public class LongSword extends PhysicalDamageProvider {
 
     public LongSword() {
         this.setMinDamage(1);

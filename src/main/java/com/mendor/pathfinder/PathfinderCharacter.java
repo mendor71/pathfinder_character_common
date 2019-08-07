@@ -66,6 +66,11 @@ public class PathfinderCharacter  {
         setStartHitPoints();
     }
 
+    public void takeWeapon(IDamageProvider damageProvider) {
+        this.damageProvider = damageProvider;
+        damageProvider.setOwner(this);
+    }
+
     public void addAttributeSkillListener(AttributeType attributeType, SkillType skillType) {
         if (this.attributeManager == null)
             throw new IllegalStateException("attributes manager not set!");

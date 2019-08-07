@@ -9,7 +9,7 @@ import com.mendor.pathfinder.types.DamageType;
 import java.util.Random;
 
 
-public abstract class AbstractPhysicalDamageProvider implements IDamageProvider, IInventoryItem {
+public class PhysicalDamageProvider implements IDamageProvider, IInventoryItem {
     private int minDamage;
     private int maxDamage;
     private int criticalMultiplier;
@@ -145,7 +145,7 @@ public abstract class AbstractPhysicalDamageProvider implements IDamageProvider,
 
     @Override
     public String toString() {
-        return "AbstractPhysicalDamageProvider{" +
+        return "PhysicalDamageProvider{" +
                 "minDamage=" + minDamage +
                 ", maxDamage=" + maxDamage +
                 ", criticalMultiplier=" + criticalMultiplier +

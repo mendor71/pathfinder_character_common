@@ -1,6 +1,7 @@
 import com.mendor.pathfinder.DamageInstance;
 import com.mendor.pathfinder.IDamageProvider;
 import com.mendor.pathfinder.PathfinderCharacter;
+import com.mendor.pathfinder.damageproviders.TwoHandedAxe;
 import com.mendor.pathfinder.types.AttributeType;
 import com.mendor.pathfinder.util.RandomRoll;
 import com.mendor.pathfinder.damageproviders.LongSword;
@@ -13,7 +14,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class LongSwordDamageProviderTest {
+public class DamageProviderTest {
     @Mock PathfinderCharacter weaponOwner;
 
     @Test(expected = IllegalStateException.class)
@@ -30,15 +31,18 @@ public class LongSwordDamageProviderTest {
     public void testWeaponProvider() {
         when(weaponOwner.getAttributeModifier(AttributeType.STRENGTH)).thenReturn(3L);
 
-        IDamageProvider damageProvider = new LongSword();
+        IDamageProvider longSword = new LongSword();
+        longSword.setTwoHanded(true);
+        longSword.setOwner(weaponOwner);
 
-        damageProvider.setTwoHanded(true);
-        damageProvider.setOwner(weaponOwner);
+        DamageInstance longSwordDamageInstance = longSword.doDamage(RandomRoll.roll(20, 3));
+        assertTrue(longSwordDamageInstance.getDamageValue() > 3);
 
-        DamageInstance damageInstance = damageProvider.doDamage(RandomRoll.roll(20, 3));
+        IDamageProvider twoHandedAxe = new TwoHandedAxe();
+        twoHandedAxe.setOwner(weaponOwner);
 
-        assertTrue(damageInstance.getDamageValue() > 3);
-
+        DamageInstance twoHandedAxeDamageInstance = twoHandedAxe.doDamage(RandomRoll.roll(20, 5));
+        assertTrue(twoHandedAxeDamageInstance.getDamageValue() > 3);
     }
 
     @Test(expected = UnsupportedOperationException.class)
