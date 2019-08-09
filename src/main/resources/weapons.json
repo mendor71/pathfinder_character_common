@@ -1,0 +1,31 @@
+[
+  {
+    "minDamage":1
+    , "maxDamage": 8
+    , "criticalChancePercent": 5
+    , "criticalMultiplier": 2
+    , "twoHanded": false
+    , "twoHandDamageBonus": 1.5
+    , "useAgilityBonus": false
+    , "useStrengthBonus": true
+    , "damageType": "CUTTING"
+    , "name": "LongSword"
+    , "description": "Common Long Sword"
+    , "buyCost": 5.0
+    , "sellCost": 0.5
+  },{
+      "minDamage":1
+    , "maxDamage": 12
+    , "criticalChancePercent": 5
+    , "criticalMultiplier": 3
+    , "twoHanded": true
+    , "twoHandDamageBonus": 1.0
+    , "useAgilityBonus": false
+    , "useStrengthBonus": true
+    , "damageType": "CUTTING"
+    , "name": "TwoHandedAxe"
+    , "description": "Two Handed Axe"
+    , "buyCost": 15.0
+    , "sellCost": 3
+  }
+]

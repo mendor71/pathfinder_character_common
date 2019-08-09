@@ -1,0 +1,6 @@
+[{
+  "name": "HealPotion",
+  "description": "Restore 1d12 HP",
+  "buyCost": 7,
+  "sellCost": 2
+}]

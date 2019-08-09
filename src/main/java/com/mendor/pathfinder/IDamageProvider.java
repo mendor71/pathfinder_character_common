@@ -1,6 +1,8 @@
 package com.mendor.pathfinder;
 
-public interface IDamageProvider {
+import com.mendor.pathfinder.inventory.IInventoryItem;
+
+public interface IDamageProvider extends IInventoryItem {
     DamageInstance doDamage(long value) throws UnsupportedOperationException;
     DamageInstance doDamage() throws UnsupportedOperationException;
     void setOwner(PathfinderCharacter character);

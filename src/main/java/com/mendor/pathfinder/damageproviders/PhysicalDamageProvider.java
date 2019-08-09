@@ -9,7 +9,7 @@ import com.mendor.pathfinder.types.DamageType;
 import java.util.Random;
 
 
-public class PhysicalDamageProvider implements IDamageProvider, IInventoryItem {
+public class PhysicalDamageProvider implements IDamageProvider {
     private int minDamage;
     private int maxDamage;
     private int criticalMultiplier;
@@ -24,14 +24,12 @@ public class PhysicalDamageProvider implements IDamageProvider, IInventoryItem {
     private Double buyCost;
     private Double sellCost;
     private DamageType damageType;
-    private ISaveRoll saveRoll;
 
     public DamageInstance doDamage(long attackBonus) {
         return new DamageInstance()
                 .setDamageType(damageType)
                 .setAttackValue(attackBonus)
-                .setDamageValue(calculateDamageValue())
-                .setSaveRoll(saveRoll);
+                .setDamageValue(calculateDamageValue());
     }
 
     protected long calculateDamageValue() {
@@ -119,10 +117,6 @@ public class PhysicalDamageProvider implements IDamageProvider, IInventoryItem {
         this.damageType = damageType;
     }
 
-    public void setSaveRoll(ISaveRoll saveRoll) {
-        this.saveRoll = saveRoll;
-    }
-
     @Override
     public String getDescription() {
         return description;
@@ -159,6 +153,26 @@ public class PhysicalDamageProvider implements IDamageProvider, IInventoryItem {
                 ", description='" + description + '\'' +
                 ", buyCost=" + buyCost +
                 ", sellCost=" + sellCost +
+                ", damageType=" + damageType +
                 '}';
+    }
+
+    public IDamageProvider clone() {
+        PhysicalDamageProvider copy = new PhysicalDamageProvider();
+        copy.minDamage = this.minDamage;
+        copy.maxDamage = this.maxDamage;
+        copy.criticalMultiplier = this.criticalMultiplier;
+        copy.criticalChancePercent = this.criticalChancePercent;
+        copy.twoHanded = this.twoHanded;
+        copy.twoHandDamageBonus = this.twoHandDamageBonus;
+        copy.weaponOwner = this.weaponOwner;
+        copy.useAgilityBonus = this.useAgilityBonus;
+        copy.useStrengthBonus = this.useStrengthBonus;
+        copy.name = this.name;
+        copy.description = this.description;
+        copy.buyCost = this.buyCost;
+        copy.sellCost = this.sellCost;
+        copy.damageType = this.damageType;
+        return copy;
     }
 }

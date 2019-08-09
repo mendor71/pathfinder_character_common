@@ -1,0 +1,13 @@
+[
+  {
+    "name": "Rope"
+    , "description": "use it to fix something"
+    , "buyCost": 1
+    , "sellCost": 0.1
+  }, {
+    "name": "SmallHealPotion"
+    , "description": "Restore 1d8 HP"
+    , "buyCost": 3
+    , "sellCost": 1
+  }
+]

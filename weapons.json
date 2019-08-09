@@ -1,0 +1,17 @@
+[
+  {
+    "minDamage":1
+    , "maxDamage": 6
+    , "criticalChancePercent": 5
+    , "criticalMultiplier": 2
+    , "twoHanded": false
+    , "twoHandDamageBonus": 1.5
+    , "useAgilityBonus": false
+    , "useStrengthBonus": true
+    , "damageType": "CUTTING"
+    , "name": "ShortSword"
+    , "description": "Common Short Sword"
+    , "buyCost": 5.0
+    , "sellCost": 0.5
+  }
+]

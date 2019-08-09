@@ -36,4 +36,14 @@ public class InventoryItem implements IInventoryItem {
                 ", sellCost=" + sellCost +
                 '}';
     }
+
+    public IInventoryItem clone()  {
+        InventoryItem copy = new InventoryItem();
+        copy.buyCost = this.buyCost;
+        copy.sellCost = this.sellCost;
+        copy.description = this.description;
+        copy.name = this.name;
+
+        return copy;
+    }
 }
