@@ -13,8 +13,6 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(JUnit4.class)
 public class SimpleSkillProviderTest {
-
-
     @Test
     public void testSkillFactoryReturnCorrectSkillInstance() {
         SimpleSkillProvider simpleSkillProvider = SimpleSkillProvider.getInstance();

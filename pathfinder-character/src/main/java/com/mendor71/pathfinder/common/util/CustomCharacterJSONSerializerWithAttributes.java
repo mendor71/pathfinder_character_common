@@ -24,9 +24,8 @@ public class CustomCharacterJSONSerializerWithAttributes extends CustomCharacter
         for (CharacterAttributeDetails d: attributes) {
             ObjectNode attr = attrs.addObject();
             attr.put("type", d.getType().toString());
-            attr.put("value", d.getValueNormal());
+            attr.put("value", d.getValue());
             attr.put("tempValueBonus", d.getTempValueBonus());
-            attr.put("modifier", d.getModifier());
             attr.put("tempModifierBonus", d.getTempModifierBonus());
             attr.put("id", d.getId());
         }

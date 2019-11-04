@@ -9,7 +9,7 @@ public class CharacterAttributeDetails implements IAttributeNotifier {
 
     private Long id;
     private AttributeType type;
-    private long valueNormal;
+    private long value;
     private long modifier;
     private long tempValueBonus;
     private long tempModifierBonus;
@@ -19,51 +19,49 @@ public class CharacterAttributeDetails implements IAttributeNotifier {
     public CharacterAttributeDetails() {
     }
 
-    public CharacterAttributeDetails(AttributeType type, long valueNormal) {
+    public CharacterAttributeDetails(AttributeType type, long value) {
         this.type = type;
-        this.valueNormal = valueNormal;
+        this.value = value;
         calculateModifier();
+    }
+
+    public Long getId() {
+        return id == null ? -1 : id;
+    }
+
+    public void setType(AttributeType type) {
+        this.type = type;
     }
 
     @Override
     public void addListener(IAttributeListener listener) {
         listenersList.add(listener);
-        listener.update(this.valueNormal, this.modifier);
+        listener.update(this.value, this.modifier);
     }
-
     @Override
     public void notifyListeners() {
-        listenersList.forEach(v -> v.update(valueNormal, modifier));
+        listenersList.forEach(v -> v.update(value, modifier));
     }
 
     public long increaseValue(long addValue) {
-        valueNormal += addValue;
+        value += addValue;
         modifier = calculateModifier();
-
         notifyListeners();
-
-        return valueNormal;
+        return value;
     }
 
     public long decreaseValue(long addValue) {
-        valueNormal -= addValue;
+        value -= addValue;
         modifier = calculateModifier();
-
         notifyListeners();
-
-        return valueNormal;
-    }
-
-    public void setModifier(long modifier) {
-        this.modifier = modifier;
-        notifyListeners();
+        return value;
     }
 
     private long calculateModifier() {
         if (tempModifierBonus == 0)
-            return modifier = (valueNormal + tempValueBonus - 10) / 2;
+            return modifier = (value + tempValueBonus - 10) / 2;
         else
-            return modifier + tempValueBonus;
+            return modifier + tempModifierBonus;
     }
 
     public void setTempValueBonus(long value) {
@@ -74,17 +72,24 @@ public class CharacterAttributeDetails implements IAttributeNotifier {
         this.tempModifierBonus = value;
     }
 
-    public void setType(AttributeType type) {
-        this.type = type;
+    public void increaseTempValueBonus(long value) {
+        this.tempValueBonus += value;
     }
 
-    public void setValueNormal(long valueNormal) {
-        this.valueNormal = valueNormal;
-        notifyListeners();
+    public void decreaseTempValueBonus(long value) {
+        this.tempValueBonus -= value;
+    }
+
+    public void increaseTempModifierBonus(long value) {
+        this.tempModifierBonus += value;
+    }
+
+    public void decreaseTempModifierBonus(long value) {
+        this.tempModifierBonus -= value;
     }
 
     public long getModifier() {
-        return modifier;
+        return calculateModifier();
     }
 
     public AttributeType getType() {
@@ -92,20 +97,16 @@ public class CharacterAttributeDetails implements IAttributeNotifier {
     }
 
     public long getValue() {
-        return valueNormal + tempModifierBonus;
+        return value + tempValueBonus;
     }
 
-    public Long getId() {
-        return id == null ? -1 : id;
+    public void setValue(long value) {
+        this.value = value;
     }
 
     public CharacterAttributeDetails setId(Long id) {
         this.id = id;
         return this;
-    }
-
-    public long getValueNormal() {
-        return valueNormal;
     }
 
     public long getTempValueBonus() {
@@ -114,5 +115,13 @@ public class CharacterAttributeDetails implements IAttributeNotifier {
 
     public long getTempModifierBonus() {
         return tempModifierBonus;
+    }
+
+    public void resetTempValueBonus() {
+        this.tempValueBonus = 0;
+    }
+
+    public void resetTempModifierBonus() {
+        this.tempModifierBonus = 0;
     }
 }

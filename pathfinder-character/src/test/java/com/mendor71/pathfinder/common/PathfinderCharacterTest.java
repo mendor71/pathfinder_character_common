@@ -34,9 +34,11 @@ import static org.junit.Assert.*;
 @RunWith(JUnit4.class)
 public class PathfinderCharacterTest {
     private PathfinderCharacter testCharacter;
+
     private ICharacterClassManager characterClassManager ;
     private ICharacterAttributeManager characterAttributeManager;
     private ICharacterSkillManager characterSkillManager;
+
     private Set<CharacterClassDetails> classDetails;
     private Set<CharacterAttributeDetails> attributeDetails;
 
@@ -108,40 +110,14 @@ public class PathfinderCharacterTest {
     }
 
     @Test(expected = NotEnoughSkillPointsException.class)
-    public void characterSkillManagerUserPointsMoreThanFreeException() throws NotEnoughSkillPointsException {
+    public void characterSkillManagerUsePointsMoreThanFreeException() throws NotEnoughSkillPointsException {
         testCharacter.increaseSkillPoints(SkillType.Survival, 90);
     }
 
     @Test
-    public void testDecoratorBasedSerializerAndDeserializer() throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-
-        IJSONSerializer sBase = new CustomCharacterJSONSerializer();
-        IJSONSerializer sWithClasses = new CustomCharacterJSONSerializerWithClasses(sBase);
-        IJSONSerializer sWithAttributes = new CustomCharacterJSONSerializerWithAttributes(sWithClasses);
-        IJSONSerializer sWithSkills = new CustomCharacterJSONSerializerWithSkills(sWithAttributes);
-
-        String serializedData = mapper.writeValueAsString(sWithSkills.serialize(testCharacter));
-
-        CustomCharacterJSONDeserializer dBase = new CustomCharacterJSONDeserializer(PathfinderCharacter.class);
-        CustomCharacterJSONDeserializer dWithClasses = new CustomCharacterJSONDeserializerWithClasses(dBase);
-        CustomCharacterJSONDeserializer dWithAttributes = new CustomCharacterJSONDeserializerWihAttributes(dWithClasses);
-        CustomCharacterJSONDeserializer dWithSkills = new CustomCharacterJSONDeserializerWithSkills(dWithAttributes);
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        module.addDeserializer(PathfinderCharacter.class, dWithSkills);
-        objectMapper.registerModule(module);
-
-        PathfinderCharacter deserializedCharacter = objectMapper.readValue(serializedData, PathfinderCharacter.class);
-
-        assertEquals(testCharacter.getName(), deserializedCharacter.getName());
-        assertEquals(testCharacter.getUUID(), deserializedCharacter.getUUID());
-        assertEquals(testCharacter.getLevel(), deserializedCharacter.getLevel());
-        assertEquals(testCharacter.getCharacterClasses().size(), deserializedCharacter.getCharacterClasses().size());
-        assertEquals(testCharacter.getArmorClass(), deserializedCharacter.getArmorClass());
-        assertEquals(testCharacter.getFreeSkillPoints(), deserializedCharacter.getFreeSkillPoints());
-        assertEquals(testCharacter.getAttributeModifier(AttributeType.ENDURANCE), deserializedCharacter.getAttributeModifier(AttributeType.ENDURANCE));
-        assertEquals(testCharacter.getSkillPoints(SkillType.Survival), deserializedCharacter.getSkillPoints(SkillType.Survival));
+    public void characterAttributeManagerTest() {
+        assertEquals(testCharacter.getAttributeModifier(AttributeType.STRENGTH), 3);
+        testCharacter.getAttributeManager().increaseAttributeValue(testCharacter, AttributeType.STRENGTH, 4);
+        assertEquals(testCharacter.getAttributeModifier(AttributeType.STRENGTH), 5);
     }
 }

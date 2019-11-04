@@ -40,9 +40,8 @@ public class CustomCharacterJSONDeserializerWihAttributes extends CustomCharacte
             CharacterAttributeDetails details = new CharacterAttributeDetails();
             AttributeType type = AttributeType.byName(attr.get("type").asText());
             details.setType(type);
-            details.setValueNormal(attr.get("value").longValue());
+            details.setValue(attr.get("value").longValue());
             details.setTempValueBonus(attr.get("tempValueBonus").longValue());
-            details.setModifier(attr.get("modifier").longValue());
             details.setTempModifierBonus(attr.get("tempModifierBonus").longValue());
             details.setId(attr.get("id").longValue());
             attributeDetailsSet.add(details);
