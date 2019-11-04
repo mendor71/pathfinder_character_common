@@ -5,9 +5,7 @@ import com.mendor71.pathfinder.common.skills.SimpleSkillProvider;
 import com.mendor71.pathfinder.common.types.ClassType;
 import com.mendor71.pathfinder.common.types.SkillType;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class CharacterClass implements ICharacterClass {
 
@@ -21,16 +19,16 @@ public class CharacterClass implements ICharacterClass {
         fighter.minHitDiceValue = 1;
         fighter.maxHitDiceValue = 12;
         fighter.skillPointsByLevel = 2;
-        fighter.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.Climb));
-        fighter.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.Craft));
-        fighter.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.HandleAnimal));
-        fighter.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.Intimidate));
-        fighter.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.KnowledgeDungeoneering));
-        fighter.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.KnowledgeEngineering));
-        fighter.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.Profession));
-        fighter.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.Ride));
-        fighter.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.Survival));
-        fighter.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.Swim));
+        fighter.characterClassSkills.add(SkillType.Climb);
+        fighter.characterClassSkills.add(SkillType.Craft);
+        fighter.characterClassSkills.add(SkillType.HandleAnimal);
+        fighter.characterClassSkills.add(SkillType.Intimidate);
+        fighter.characterClassSkills.add(SkillType.KnowledgeDungeoneering);
+        fighter.characterClassSkills.add(SkillType.KnowledgeEngineering);
+        fighter.characterClassSkills.add(SkillType.Profession);
+        fighter.characterClassSkills.add(SkillType.Ride);
+        fighter.characterClassSkills.add(SkillType.Survival);
+        fighter.characterClassSkills.add(SkillType.Swim);
 
         CharacterClass paladin = new CharacterClass();
         paladin.classType = ClassType.PALADIN;
@@ -38,16 +36,16 @@ public class CharacterClass implements ICharacterClass {
         paladin.minHitDiceValue = 1;
         paladin.maxHitDiceValue = 10;
         paladin.skillPointsByLevel = 2;
-        paladin.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.Craft));
-        paladin.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.Diplomacy));
-        paladin.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.HandleAnimal));
-        paladin.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.Heal));
-        paladin.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.KnowledgeNobility));
-        paladin.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.KnowledgeReligion));
-        paladin.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.Profession));
-        paladin.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.Ride));
-        paladin.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.SenseMotive));
-        paladin.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.Spellcraft));
+        paladin.characterClassSkills.add(SkillType.Craft);
+        paladin.characterClassSkills.add(SkillType.Diplomacy);
+        paladin.characterClassSkills.add(SkillType.HandleAnimal);
+        paladin.characterClassSkills.add(SkillType.Heal);
+        paladin.characterClassSkills.add(SkillType.KnowledgeNobility);
+        paladin.characterClassSkills.add(SkillType.KnowledgeReligion);
+        paladin.characterClassSkills.add(SkillType.Profession);
+        paladin.characterClassSkills.add(SkillType.Ride);
+        paladin.characterClassSkills.add(SkillType.SenseMotive);
+        paladin.characterClassSkills.add(SkillType.Spellcraft);
 
         CharacterClass ranger = new CharacterClass();
         ranger.classType = ClassType.RANGER;
@@ -55,21 +53,21 @@ public class CharacterClass implements ICharacterClass {
         ranger.minHitDiceValue = 1;
         ranger.maxHitDiceValue = 10;
         ranger.skillPointsByLevel = 6;
-        ranger.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.Climb));
-        ranger.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.Craft));
-        ranger.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.HandleAnimal));
-        ranger.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.Heal));
-        ranger.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.Intimidate));
-        ranger.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.KnowledgeDungeoneering));
-        ranger.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.KnowledgeGeography));
-        ranger.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.KnowledgeNature));
-        ranger.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.Perception));
-        ranger.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.Profession));
-        ranger.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.Ride));
-        ranger.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.Spellcraft));
-        ranger.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.Stealth));
-        ranger.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.Survival));
-        ranger.characterClassSkills.add(simpleSkillProvider.getSkillByType(SkillType.Swim));
+        ranger.characterClassSkills.add(SkillType.Climb);
+        ranger.characterClassSkills.add(SkillType.Craft);
+        ranger.characterClassSkills.add(SkillType.HandleAnimal);
+        ranger.characterClassSkills.add(SkillType.Heal);
+        ranger.characterClassSkills.add(SkillType.Intimidate);
+        ranger.characterClassSkills.add(SkillType.KnowledgeDungeoneering);
+        ranger.characterClassSkills.add(SkillType.KnowledgeGeography);
+        ranger.characterClassSkills.add(SkillType.KnowledgeNature);
+        ranger.characterClassSkills.add(SkillType.Perception);
+        ranger.characterClassSkills.add(SkillType.Profession);
+        ranger.characterClassSkills.add(SkillType.Ride);
+        ranger.characterClassSkills.add(SkillType.Spellcraft);
+        ranger.characterClassSkills.add(SkillType.Stealth);
+        ranger.characterClassSkills.add(SkillType.Survival);
+        ranger.characterClassSkills.add(SkillType.Swim);
 
         classMap.put(ClassType.FIGHTER, fighter);
         classMap.put(ClassType.PALADIN, paladin);
@@ -83,7 +81,7 @@ public class CharacterClass implements ICharacterClass {
     private long minHitDiceValue;
     private long skillPointsByLevel;
 
-    private HashSet<CharacterSkill> characterClassSkills = new HashSet<>();
+    private EnumSet<SkillType> characterClassSkills = EnumSet.noneOf(SkillType.class);
 
     private CharacterClass() {}
 
@@ -125,7 +123,12 @@ public class CharacterClass implements ICharacterClass {
     }
 
     @Override
-    public Set<CharacterSkill> getClassSkills() {
+    public Set<SkillType> getClassSkills() {
         return characterClassSkills;
+    }
+
+    @Override
+    public ClassType getType() {
+        return this.classType;
     }
 }

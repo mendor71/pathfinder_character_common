@@ -2,25 +2,22 @@ package com.mendor71.pathfinder.common.attributes;
 
 import com.mendor71.pathfinder.common.types.AttributeType;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-public class PersonifiedCharacterAttributeManager implements IAttributeManager {
+public class PersonifiedAttributeManager implements IAttributeManager {
     private String characterId;
-    private Map<AttributeType, CharacterAttributeDetails> attributeDetailsMap = new HashMap<>();
+    private Map<AttributeType, CharacterAttributeDetails> attributeDetailsMap = new EnumMap<>(AttributeType.class);
 
-    public PersonifiedCharacterAttributeManager(String characterId) {
+    public PersonifiedAttributeManager(String characterId) {
         this.characterId = characterId;
     }
 
-    public PersonifiedCharacterAttributeManager(String characterId, Map<AttributeType, CharacterAttributeDetails> attributeDetailsSet) {
+    public PersonifiedAttributeManager(String characterId, Map<AttributeType, CharacterAttributeDetails> attributeDetailsSet) {
         this.characterId = characterId;
         this.attributeDetailsMap = attributeDetailsSet;
     }
 
-    public PersonifiedCharacterAttributeManager(String characterId, Set<CharacterAttributeDetails> attributeDetails) {
+    public PersonifiedAttributeManager(String characterId, Set<CharacterAttributeDetails> attributeDetails) {
         this.characterId = characterId;
         setAttributesOnControl(attributeDetails);
     }

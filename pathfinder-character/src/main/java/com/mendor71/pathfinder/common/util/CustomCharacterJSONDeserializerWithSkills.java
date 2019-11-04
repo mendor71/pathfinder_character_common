@@ -51,7 +51,7 @@ public class CustomCharacterJSONDeserializerWithSkills extends CustomCharacterJS
             CharacterSkillDetails skillDetails = new CharacterSkillDetails();
 
             skillDetails.setSkill(s);
-            skillDetails.setValue(skill.get("value").longValue());
+            skillDetails.setTrainedPoints(skill.get("trainedPoints").longValue());
             skillDetails.setModifier(skill.get("modifier").longValue());
             skillDetails.setBonus(skill.get("bonus").longValue());
             skillDetails.setId(skill.get("id").longValue());

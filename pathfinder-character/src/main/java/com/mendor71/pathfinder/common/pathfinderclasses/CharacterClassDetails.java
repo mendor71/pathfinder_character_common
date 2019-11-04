@@ -25,6 +25,10 @@ public class CharacterClassDetails {
         return characterClass;
     }
 
+    public void increaseLevel(long value) {
+        this.level += value;
+    }
+
     public long getLevel() {
         return level;
     }

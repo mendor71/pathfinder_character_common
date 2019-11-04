@@ -77,6 +77,6 @@ public class SimpleCharacterClassManager implements ICharacterClassManager {
         if (!this.characterClassMap.containsKey(pathfinderCharacter))
             return false;
         return this.characterClassMap.get(pathfinderCharacter).stream().anyMatch(classDetails ->
-            classDetails.getCharacterClass().getClassSkills().stream().anyMatch(cs -> cs.getSkillType().equals(skillType)));
+            classDetails.getCharacterClass().getClassSkills().stream().anyMatch(cs -> cs.equals(skillType)));
     }
 }

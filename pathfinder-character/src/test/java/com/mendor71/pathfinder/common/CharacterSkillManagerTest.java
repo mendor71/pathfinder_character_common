@@ -1,0 +1,62 @@
+package com.mendor71.pathfinder.common;
+
+import com.mendor71.pathfinder.common.skills.CharacterSkillDetails;
+import com.mendor71.pathfinder.common.skills.ISkillManager;
+import com.mendor71.pathfinder.common.skills.PersonifiedSkillManager;
+import com.mendor71.pathfinder.common.skills.SimpleSkillProvider;
+import com.mendor71.pathfinder.common.types.SkillType;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.Set;
+
+import static junit.framework.TestCase.assertEquals;
+
+@RunWith(JUnit4.class)
+public class CharacterSkillManagerTest {
+    private ISkillManager skillManager;
+
+    @Before
+    public void before() {
+        CharacterBase characterBase = CharacterBase.newBuilder().build();
+
+        skillManager = new PersonifiedSkillManager(characterBase.getUuid());
+
+        Set<CharacterSkillDetails> skillSet = new HashSet<>();
+        SimpleSkillProvider skillProvider = SimpleSkillProvider.getInstance();
+
+        skillSet.add(new CharacterSkillDetails(skillProvider.getSkillByType(SkillType.Survival), 3));
+        skillSet.add(new CharacterSkillDetails(skillProvider.getSkillByType(SkillType.DisableDevice), 5));
+        skillSet.add(new CharacterSkillDetails(skillProvider.getSkillByType(SkillType.Heal), 2));
+
+        Set<SkillType> classSkills = EnumSet.noneOf(SkillType.class);
+        classSkills.add(SkillType.DisableDevice);
+
+        skillManager.setSkillsOnControl(skillSet);
+        skillManager.setClassSkills(classSkills);
+        skillManager.setSumSkillPoints(15);
+    }
+
+    @Test
+    public void testDefaultPoints() {
+        assertEquals(skillManager.getFreeSkillPoints(), 5);
+        assertEquals(skillManager.getUsedSkillPoints(), 10);
+    }
+
+    @Test
+    public void testSumSkillValue() {
+        assertEquals( skillManager.getSkillValue(SkillType.DisableDevice), 8);
+        assertEquals( skillManager.getSkillTrainedPoints(SkillType.DisableDevice), 5);
+    }
+
+    @Test
+    public void testGetUsedSkillPointsBySkill() {
+        assertEquals( skillManager.getUsedSkillPointsBySkill(SkillType.DisableDevice), 5);
+    }
+}
+
+

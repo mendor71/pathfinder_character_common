@@ -11,31 +11,46 @@ public class CharacterSkillDetails implements IAttributeListener {
     private CharacterSkill skill;
     private PathfinderCharacter character;
 
-    private long value;
+    private long trainedPoints;
     private long modifier;
     private long bonus;
 
     public CharacterSkillDetails() {
     }
 
+    public CharacterSkillDetails(CharacterSkill skill) {
+        this.skill = skill;
+    }
+
+    public CharacterSkillDetails(CharacterSkill skill, long trainedPoints) {
+        this.skill = skill;
+        this.trainedPoints = trainedPoints;
+    }
+
     public CharacterSkillDetails(PathfinderCharacter character, CharacterSkill skill) {
         this.skill = skill;
         this.character = character;
-        this.value = 0;
+        this.trainedPoints = 0;
     }
 
-    public CharacterSkillDetails(PathfinderCharacter character, CharacterSkill skill, long value) {
+    public CharacterSkillDetails(PathfinderCharacter character, CharacterSkill skill, long trainedPoints) {
         this.skill = skill;
-        this.value = value;
+        this.trainedPoints = trainedPoints;
         this.character = character;
     }
 
-    public long increaseValue(long bonus) {
-        return this.value += bonus;
+    public void increaseBonus(long bonus) {
+        this.bonus += bonus;
+    }
+
+    public long increaseValue(long bonus, boolean classSkill) {
+        if (this.trainedPoints == 0 && classSkill)
+            bonus += 3;
+        return this.trainedPoints += bonus;
     }
 
     public long decreaseValue(long minus) {
-        return this.value -= minus;
+        return this.trainedPoints -= minus;
     }
 
     public long getId() {
@@ -54,8 +69,8 @@ public class CharacterSkillDetails implements IAttributeListener {
         return skill.getAttributeType();
     }
 
-    public long getValue() {
-        return value;
+    public long getTrainedPoints() {
+        return trainedPoints;
     }
 
     public long getModifier() {
@@ -70,8 +85,8 @@ public class CharacterSkillDetails implements IAttributeListener {
         this.skill = skill;
     }
 
-    public void setValue(long value) {
-        this.value = value;
+    public void setTrainedPoints(long value) {
+        this.trainedPoints = value;
     }
 
     public void setModifier(long modifier) {
@@ -92,6 +107,10 @@ public class CharacterSkillDetails implements IAttributeListener {
 
     public void setCharacter(PathfinderCharacter character) {
         this.character = character;
+    }
+
+    public long getSkillValue() {
+        return modifier + trainedPoints + bonus;
     }
 
     @Override

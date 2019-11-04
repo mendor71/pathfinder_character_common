@@ -10,7 +10,7 @@ public class CharacterAttributeDetails implements IAttributeNotifier {
     private Long id;
     private AttributeType type;
     private long value;
-    private long modifier;
+    //private long modifier;
     private long tempValueBonus;
     private long tempModifierBonus;
 
@@ -36,56 +36,65 @@ public class CharacterAttributeDetails implements IAttributeNotifier {
     @Override
     public void addListener(IAttributeListener listener) {
         listenersList.add(listener);
-        listener.update(this.value, this.modifier);
+        notifyListeners();
     }
     @Override
     public void notifyListeners() {
-        listenersList.forEach(v -> v.update(value, modifier));
+        listenersList.forEach(v -> v.update(value+tempValueBonus, calculateModifier()));
+    }
+
+    private void changeValue(long addToValue, long addToTmpBonus) {
+        value += addToValue;
+        tempValueBonus += addToTmpBonus;
+        notifyListeners();
+    }
+
+    private void changeModifierValue(long tmpBonus) {
+        tempModifierBonus += tmpBonus;
+        notifyListeners();
     }
 
     public long increaseValue(long addValue) {
-        value += addValue;
-        modifier = calculateModifier();
-        notifyListeners();
+        changeValue(addValue, 0);
         return value;
     }
 
     public long decreaseValue(long addValue) {
-        value -= addValue;
-        modifier = calculateModifier();
-        notifyListeners();
+        changeValue(-addValue, 0);
         return value;
     }
 
     private long calculateModifier() {
-        if (tempModifierBonus == 0)
-            return modifier = (value + tempValueBonus - 10) / 2;
-        else
-            return modifier + tempModifierBonus;
+        long modifier = (value + tempValueBonus - 10) / 2;
+        if (tempModifierBonus != 0)
+            modifier += tempModifierBonus;
+        return modifier;
     }
 
     public void setTempValueBonus(long value) {
         this.tempValueBonus = value;
+        notifyListeners();
     }
 
     public void setTempModifierBonus(long value) {
         this.tempModifierBonus = value;
+        notifyListeners();
     }
 
     public void increaseTempValueBonus(long value) {
-        this.tempValueBonus += value;
+        changeValue(0, value);
     }
 
     public void decreaseTempValueBonus(long value) {
-        this.tempValueBonus -= value;
+        changeValue(0, -value);
     }
 
     public void increaseTempModifierBonus(long value) {
-        this.tempModifierBonus += value;
+        changeModifierValue(value);
     }
 
     public void decreaseTempModifierBonus(long value) {
-        this.tempModifierBonus -= value;
+        changeModifierValue(-value);
     }
 
     public long getModifier() {
@@ -102,6 +111,7 @@ public class CharacterAttributeDetails implements IAttributeNotifier {
 
     public void setValue(long value) {
         this.value = value;
+        notifyListeners();
     }
 
     public CharacterAttributeDetails setId(Long id) {
@@ -119,9 +129,11 @@ public class CharacterAttributeDetails implements IAttributeNotifier {
 
     public void resetTempValueBonus() {
         this.tempValueBonus = 0;
+        notifyListeners();
     }
 
     public void resetTempModifierBonus() {
         this.tempModifierBonus = 0;
+        notifyListeners();
     }
 }

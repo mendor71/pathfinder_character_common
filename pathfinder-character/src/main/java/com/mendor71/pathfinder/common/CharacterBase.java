@@ -75,6 +75,14 @@ public class CharacterBase {
         return eyeColor;
     }
 
+    public void setLevel(long level) {
+        this.level = level;
+    }
+
+    public void setAge(long age) {
+        this.age = age;
+    }
+
     public class Builder {
         private Builder() {}
 

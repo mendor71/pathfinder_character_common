@@ -20,7 +20,7 @@ public class SimpleCharacterSkillManager implements ICharacterSkillManager {
         if (!characterSkillDetailsMap.containsKey(character))
             characterSkillDetailsMap.put(character, new HashSet<>());
 
-        character.getCharacterClasses().forEach( c -> {
+        /*character.getCharacterClasses().forEach( c -> {
             Set<CharacterSkill> classSkills = c.getCharacterClass().getClassSkills();
 
             classSkills.forEach( s -> {
@@ -29,7 +29,7 @@ public class SimpleCharacterSkillManager implements ICharacterSkillManager {
                     character.addAttributeSkillListener(s.getAttributeType(), s.getSkillType());
                 }
             });
-        });
+        });*/
     }
 
     @Override
@@ -87,7 +87,7 @@ public class SimpleCharacterSkillManager implements ICharacterSkillManager {
         long newValue;
         if ( containsCharacterSkill(character, type) ) {
             CharacterSkillDetails details = getCharacterSkillDetails(character, type);
-            newValue = details.increaseValue(increaseOn);
+            newValue = details.increaseValue(increaseOn, false);
         } else {
             if (!characterSkillDetailsMap.containsKey(character))
                 throw new IllegalStateException("set character data before use this method");
@@ -104,8 +104,8 @@ public class SimpleCharacterSkillManager implements ICharacterSkillManager {
     @Override
     public long increaseClassSkillPoints(PathfinderCharacter character, SkillType type) {
         CharacterSkillDetails details = getCharacterSkillDetails(character, type);
-        details.increaseValue(3);
-        return details.getValue();
+        details.increaseValue(0, true);
+        return details.getTrainedPoints();
     }
 
     @Override
@@ -113,7 +113,7 @@ public class SimpleCharacterSkillManager implements ICharacterSkillManager {
         if (!containsCharacterSkill(character, type))
             return 0;
 
-        return getCharacterSkillDetails(character, type).getValue();
+        return getCharacterSkillDetails(character, type).getTrainedPoints();
     }
 
     @Override
