@@ -1,7 +1,8 @@
 package com.mendor71.pathfinder.common.bonus;
 
 import com.mendor71.pathfinder.common.Character;
-import com.mendor71.pathfinder.common.skills.CharacterSkillDetails;
+import com.mendor71.pathfinder.common.exceptions.CharacterSkillAlreadyExistsException;
+import com.mendor71.pathfinder.common.exceptions.CharacterSkillListIllegalStateException;
 import com.mendor71.pathfinder.common.types.SkillType;
 
 public class SkillCharacterBonus extends AbstractCharacterBonus implements ICharacterBonus {
@@ -17,11 +18,13 @@ public class SkillCharacterBonus extends AbstractCharacterBonus implements IChar
     }
 
     @Override
-    public void apply(Character character) {
-        CharacterSkillDetails characterSkill = character.getCharacterSkillDetailsByTypeOrThrowException(skillType);
+    public void apply(Character character) throws CharacterSkillListIllegalStateException, CharacterSkillAlreadyExistsException {
+        if (!character.containsCharacterSkill(skillType))
+            character.addCharacterSkill(skillType);
+
         if (temporary)
-            characterSkill.increaseTemporaryBonus(value);
+            character.increaseSkillTemporaryModifierValue(skillType, value);
         else
-            characterSkill.increaseBonus(value);
+            character.increaseSkillStableBonusValue(skillType,value);
     }
 }

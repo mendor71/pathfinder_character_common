@@ -8,6 +8,7 @@ import com.mendor71.pathfinder.common.PathfinderCharacter;
 import com.mendor71.pathfinder.common.skills.CharacterSkill;
 import com.mendor71.pathfinder.common.skills.CharacterSkillDetails;
 import com.mendor71.pathfinder.common.skills.SimpleSkillProvider;
+import com.mendor71.pathfinder.common.types.AttributeType;
 import com.mendor71.pathfinder.common.types.SkillType;
 
 import java.io.IOException;
@@ -45,16 +46,17 @@ public class CustomCharacterJSONDeserializerWithSkills extends CustomCharacterJS
         ArrayNode list = (ArrayNode) skills.get("list");
 
         for (JsonNode skill: list) {
-
             SkillType type = SkillType.byName(skill.get("type").asText());
+
             CharacterSkill s = SimpleSkillProvider.getInstance().getSkillByType(type);
             CharacterSkillDetails skillDetails = new CharacterSkillDetails();
 
             skillDetails.setSkill(s);
             skillDetails.setTrainedPoints(skill.get("trainedPoints").longValue());
-            skillDetails.setModifier(skill.get("modifier").longValue());
-            skillDetails.setBonus(skill.get("bonus").longValue());
+            skillDetails.setTemporarySkillValueModifier(skill.get("temporarySkillValueModifier").longValue());
+            skillDetails.setStableBonus(skill.get("stableBonus").longValue());
             skillDetails.setId(skill.get("id").longValue());
+            skillDetails.setAttributeModifier(skill.get("attributeModifier").longValue());
 
             detailsSet.add(skillDetails);
         }

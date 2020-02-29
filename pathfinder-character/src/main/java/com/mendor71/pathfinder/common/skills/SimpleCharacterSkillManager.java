@@ -87,7 +87,7 @@ public class SimpleCharacterSkillManager implements ICharacterSkillManager {
         long newValue;
         if ( containsCharacterSkill(character, type) ) {
             CharacterSkillDetails details = getCharacterSkillDetails(character, type);
-            newValue = details.increaseValue(increaseOn, false);
+            newValue = details.increaseTrainedPoints(increaseOn, false);
         } else {
             if (!characterSkillDetailsMap.containsKey(character))
                 throw new IllegalStateException("set character data before use this method");
@@ -104,7 +104,7 @@ public class SimpleCharacterSkillManager implements ICharacterSkillManager {
     @Override
     public long increaseClassSkillPoints(PathfinderCharacter character, SkillType type) {
         CharacterSkillDetails details = getCharacterSkillDetails(character, type);
-        details.increaseValue(0, true);
+        details.increaseTrainedPoints(0, true);
         return details.getTrainedPoints();
     }
 

@@ -12,10 +12,11 @@ public class CharacterSkillDetails implements IAttributeListener {
     private PathfinderCharacter character;
 
     private long trainedPoints;
-    private long modifier;
-    private long bonus;
+    private long attributeModifier;
+    private long stableBonus;
+    private long classBonus;
 
-    private long temporaryBonus = 0;
+    private long temporarySkillValueModifier = 0;
 
     public CharacterSkillDetails() {
     }
@@ -41,23 +42,42 @@ public class CharacterSkillDetails implements IAttributeListener {
         this.character = character;
     }
 
-    public void increaseBonus(long bonus) {
-        this.bonus += bonus;
+    public long increaseStableBonus(long value) {
+        return this.stableBonus += value;
     }
 
-    public long increaseValue(long bonus, boolean classSkill) {
-        if (this.trainedPoints == 0 && classSkill)
-            bonus += 3;
-        return this.trainedPoints += bonus;
+    public long decreaseStableBonus(long value) {
+        return this.stableBonus -= value;
     }
 
-    public void increaseTemporaryBonus(long bonus) {
-        this.temporaryBonus += bonus;
+    public long increaseTrainedPoints(long value, boolean classSkill) {
+        if (this.trainedPoints == 0 && classSkill && !isClassBonusUsed())
+            applyClassBonus();
+        return this.trainedPoints += value;
     }
 
-    public long decreaseValue(long minus) {
-        return this.trainedPoints -= minus;
+    public long increaseTemporarySkillModifier(long value) {
+        return this.temporarySkillValueModifier += value;
     }
+
+    public long decreaseTemporarySkillModifier(long value) {
+        return this.temporarySkillValueModifier -= value;
+    }
+
+    public void resetTemporarySkillModifier() {
+        this.temporarySkillValueModifier = 0;
+    }
+
+    public long getSummaryValue() {
+        return trainedPoints + stableBonus + attributeModifier + temporarySkillValueModifier + classBonus;
+    }
+
+    @Override
+    public void update(long normalValue, long modifier) {
+        this.attributeModifier = modifier;
+    }
+
+    /** GETTERS AND SETTERS */
 
     public long getId() {
         return id;
@@ -67,20 +87,32 @@ public class CharacterSkillDetails implements IAttributeListener {
         return skill;
     }
 
-    public SkillType getSkillType() {
-        return skill.getSkillType();
-    }
-
-    public AttributeType getAttributeType() {
-        return skill.getAttributeType();
+    public PathfinderCharacter getCharacter() {
+        return character;
     }
 
     public long getTrainedPoints() {
         return trainedPoints;
     }
 
-    public long getModifier() {
-        return modifier;
+    public long getAttributeModifier() {
+        return attributeModifier;
+    }
+
+    public long getStableBonus() {
+        return stableBonus;
+    }
+
+    public long getTemporarySkillValueModifier() {
+        return temporarySkillValueModifier;
+    }
+
+    public SkillType getSkillType() {
+        return this.skill.getSkillType();
+    }
+
+    public AttributeType getAttributeType() {
+        return this.skill.getAttributeType();
     }
 
     public void setId(long id) {
@@ -91,48 +123,31 @@ public class CharacterSkillDetails implements IAttributeListener {
         this.skill = skill;
     }
 
-    public void setTrainedPoints(long value) {
-        this.trainedPoints = value;
-    }
-
-    public void setModifier(long modifier) {
-        this.modifier = modifier;
-    }
-
-    public void setBonus(long bonus) {
-        this.bonus = bonus;
-    }
-
-    public long getBonus() {
-        return bonus;
-    }
-
-    public PathfinderCharacter getCharacter() {
-        return character;
-    }
-
     public void setCharacter(PathfinderCharacter character) {
         this.character = character;
     }
 
-    public long getSkillValue() {
-        return modifier + trainedPoints + bonus + temporaryBonus;
+    public void setTrainedPoints(long trainedPoints) {
+        this.trainedPoints = trainedPoints;
     }
 
-    public long getTemporaryBonus() {
-        return temporaryBonus;
+    public void setAttributeModifier(long attributeModifier) {
+        this.attributeModifier = attributeModifier;
     }
 
-    public void setTemporaryBonus(long temporaryBonus) {
-        this.temporaryBonus = temporaryBonus;
+    public void setStableBonus(long stableBonus) {
+        this.stableBonus = stableBonus;
     }
 
-    public void resetTemporaryBonus() {
-        this.temporaryBonus = 0;
+    public void setTemporarySkillValueModifier(long temporarySkillValueModifier) {
+        this.temporarySkillValueModifier = temporarySkillValueModifier;
     }
 
-    @Override
-    public void update(long normalValue, long modifier) {
-        this.modifier = modifier;
+    public boolean isClassBonusUsed() {
+        return classBonus != 0;
+    }
+
+    public void applyClassBonus() {
+        classBonus = 3;
     }
 }

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mendor71.pathfinder.common.attributes.CharacterAttributeDetails;
 import com.mendor71.pathfinder.common.attributes.IAttributeManager;
 import com.mendor71.pathfinder.common.bonus.ICharacterBonus;
+import com.mendor71.pathfinder.common.exceptions.CharacterSkillAlreadyExistsException;
+import com.mendor71.pathfinder.common.exceptions.CharacterSkillListIllegalStateException;
 import com.mendor71.pathfinder.common.exceptions.NotEnoughSkillPointsException;
 import com.mendor71.pathfinder.common.pathfinderclasses.CharacterClassDetails;
 import com.mendor71.pathfinder.common.pathfinderclasses.IClassManager;
@@ -212,7 +214,17 @@ public class Character implements ICharacter {
     }
 
     @Override
-    public CharacterSkillDetails getCharacterSkillDetails(SkillType type) {
+    public void addCharacterSkill(SkillType type, long trainedPoints) throws CharacterSkillAlreadyExistsException {
+        this.skillManager.addCharacterSkill(type, trainedPoints);
+    }
+
+    @Override
+    public void addCharacterSkill(SkillType type) throws CharacterSkillAlreadyExistsException {
+        this.skillManager.addCharacterSkill(type);
+    }
+
+    @Override
+    public CharacterSkillDetails getCharacterSkillDetails(SkillType type) throws CharacterSkillListIllegalStateException {
         return skillManager.getCharacterSkillDetails(type);
     }
 
@@ -224,16 +236,6 @@ public class Character implements ICharacter {
     @Override
     public boolean containsCharacterSkill(SkillType type) {
         return skillManager.containsCharacterSkill(type);
-    }
-
-    @Override
-    public long increaseSkillPoints(SkillType type, long value) throws NotEnoughSkillPointsException {
-        return skillManager.increaseSkillPoints(type, value);
-    }
-
-    @Override
-    public long getUsedSkillPointsBySkill(SkillType type) {
-        return skillManager.getUsedSkillPointsBySkill(type);
     }
 
     @Override
@@ -252,11 +254,6 @@ public class Character implements ICharacter {
     }
 
     @Override
-    public long getSkillValue(SkillType type) {
-        return skillManager.getSkillValue(type);
-    }
-
-    @Override
     public long getSkillTrainedPoints(SkillType type) {
         return skillManager.getSkillTrainedPoints(type);
     }
@@ -267,13 +264,60 @@ public class Character implements ICharacter {
     }
 
     @Override
-    public CharacterSkillDetails getCharacterSkillDetailsByTypeOrThrowException(SkillType type) throws IllegalStateException {
+    public CharacterSkillDetails getCharacterSkillDetailsByTypeOrThrowException(SkillType type) throws CharacterSkillListIllegalStateException {
         return skillManager.getCharacterSkillDetailsByTypeOrThrowException(type);
     }
 
     @Override
-    public void applyRaceBonuses() {
-        getRace().getBonuses().forEach(bonus -> bonus.apply(this));
+    public void applyRaceBonuses() throws CharacterSkillListIllegalStateException, CharacterSkillAlreadyExistsException {
+        for (ICharacterBonus bonus: getRace().getBonuses()) {
+            bonus.apply(this);
+        }
+    }
+
+    @Override
+    public long trainSkill(SkillType type, long value) throws NotEnoughSkillPointsException {
+        return skillManager.trainSkill(type, value);
+    }
+
+    @Override
+    public long increaseSkillStableBonusValue(SkillType type, long value) throws CharacterSkillListIllegalStateException {
+        return skillManager.increaseSkillStableBonusValue(type, value);
+    }
+
+    @Override
+    public long decreaseSkillStableBonusValue(SkillType type, long value) throws CharacterSkillListIllegalStateException {
+        return skillManager.decreaseSkillStableBonusValue(type, value);
+    }
+
+    @Override
+    public long increaseSkillTemporaryModifierValue(SkillType type, long value) throws CharacterSkillListIllegalStateException {
+        return skillManager.increaseSkillTemporaryModifierValue(type, value);
+    }
+
+    @Override
+    public long decreaseSkillTemporaryModifierValue(SkillType type, long value) throws CharacterSkillListIllegalStateException {
+        return skillManager.decreaseSkillTemporaryModifierValue(type, value);
+    }
+
+    @Override
+    public void resetSkillTemporaryModifierValue(SkillType type) throws CharacterSkillListIllegalStateException {
+        skillManager.resetSkillTemporaryModifierValue(type);
+    }
+
+    @Override
+    public long getSumarySkillValue(SkillType type) {
+        return skillManager.getSumarySkillValue(type);
+    }
+
+    @Override
+    public long getSkillStableBonusValue(SkillType type) {
+        return skillManager.getSkillStableBonusValue(type);
+    }
+
+    @Override
+    public long getSkillTemporaryModiferValue(SkillType type) {
+        return skillManager.getSkillTemporaryModiferValue(type);
     }
 
     public class Builder {
@@ -303,7 +347,7 @@ public class Character implements ICharacter {
             return this;
         }
 
-        public Character build() {
+        public Character build() throws CharacterSkillListIllegalStateException, CharacterSkillAlreadyExistsException {
             if (Character.this.characterBase == null) throw new IllegalStateException("Character base must be set!");
             if (Character.this.classManager == null) throw new IllegalStateException("Character classManager must be set!");
             if (Character.this.attributeManager == null) throw new IllegalStateException("Character attributeManager must be set!");

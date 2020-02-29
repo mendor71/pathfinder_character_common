@@ -49,13 +49,13 @@ public class CharacterSkillManagerTest {
 
     @Test
     public void testSumSkillValue() {
-        assertEquals( skillManager.getSkillValue(SkillType.DisableDevice), 8);
+        assertEquals( skillManager.getSumarySkillValue(SkillType.DisableDevice), 8);
         assertEquals( skillManager.getSkillTrainedPoints(SkillType.DisableDevice), 5);
     }
 
     @Test
     public void testGetUsedSkillPointsBySkill() {
-        assertEquals( skillManager.getUsedSkillPointsBySkill(SkillType.DisableDevice), 5);
+        assertEquals( skillManager.getSkillTrainedPoints(SkillType.DisableDevice), 5);
     }
 }
 

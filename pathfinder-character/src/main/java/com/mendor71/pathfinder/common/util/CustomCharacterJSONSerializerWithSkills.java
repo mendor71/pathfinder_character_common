@@ -31,9 +31,11 @@ public class CustomCharacterJSONSerializerWithSkills extends CustomCharacterJSON
 
             skill.put("type", d.getSkillType().toString());
             skill.put("trainedPoints", d.getTrainedPoints());
-            skill.put("modifier", d.getModifier());
-            skill.put("bonus", d.getBonus());
+            skill.put("temporarySkillValueModifier", d.getTemporarySkillValueModifier());
+            skill.put("stableBonus", d.getStableBonus());
+            skill.put("attributeModifier", d.getAttributeModifier());
             skill.put("id", d.getId());
+            skill.put("attributeType", d.getSkill().getAttributeType().toString());
         }
         return root;
     }

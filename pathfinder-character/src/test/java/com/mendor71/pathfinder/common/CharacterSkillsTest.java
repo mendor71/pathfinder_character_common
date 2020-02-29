@@ -34,16 +34,16 @@ public class CharacterSkillsTest {
     public void testUpdateModifierByAttributeValue() {
         attributeDetails.increaseTempValueBonus(10);
 
-        assertEquals(skillDetails.getModifier(), 5);
+        assertEquals(skillDetails.getAttributeModifier(), 5);
     }
 
     @Test
     public void testGetSumSkillValue() {
         attributeDetails.increaseTempValueBonus(10);
-        skillDetails.setBonus(2);
-        skillDetails.increaseValue(3, true);
+        skillDetails.setStableBonus(2);
+        skillDetails.increaseTrainedPoints(3, true);
 
-        assertEquals(skillDetails.getSkillValue(), 13);
-        assertEquals(skillDetails.getTrainedPoints(), 6);
+        assertEquals(skillDetails.getSummaryValue(), 13);
+        assertEquals(skillDetails.getTrainedPoints(), 3);
     }
 }
