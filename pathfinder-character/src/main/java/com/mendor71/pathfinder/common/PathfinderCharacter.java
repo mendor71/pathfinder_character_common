@@ -14,7 +14,6 @@ import com.mendor71.pathfinder.common.types.SkillType;
 
 import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 public class PathfinderCharacter  {
     private String uuid;

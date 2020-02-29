@@ -3,25 +3,36 @@ package com.mendor71.pathfinder.common;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mendor71.pathfinder.common.attributes.CharacterAttributeDetails;
 import com.mendor71.pathfinder.common.attributes.IAttributeManager;
+import com.mendor71.pathfinder.common.bonus.ICharacterBonus;
 import com.mendor71.pathfinder.common.exceptions.NotEnoughSkillPointsException;
 import com.mendor71.pathfinder.common.pathfinderclasses.CharacterClassDetails;
-import com.mendor71.pathfinder.common.pathfinderclasses.ICharacterClassManager;
 import com.mendor71.pathfinder.common.pathfinderclasses.IClassManager;
 import com.mendor71.pathfinder.common.races.IRace;
 import com.mendor71.pathfinder.common.skills.CharacterSkillDetails;
-import com.mendor71.pathfinder.common.skills.ICharacterSkillManager;
 import com.mendor71.pathfinder.common.skills.ISkillManager;
 import com.mendor71.pathfinder.common.types.AttributeType;
 import com.mendor71.pathfinder.common.types.ClassType;
 import com.mendor71.pathfinder.common.types.SkillType;
 
-import java.awt.*;
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class Character implements ICharacter {
     @JsonIgnore private IAttributeManager attributeManager;
     @JsonIgnore private IClassManager classManager;
     @JsonIgnore private ISkillManager skillManager;
+
+    private List<String> describedBonuses = new ArrayList<String>();
+
+    public void addBonusDescription(String description) {
+        describedBonuses.add(description);
+    }
+
+    public List<String> getDescribedBonuses() {
+        return describedBonuses;
+    }
 
     public static Builder newBuilder() {
         return new Character().new Builder();
@@ -260,6 +271,11 @@ public class Character implements ICharacter {
         return skillManager.getCharacterSkillDetailsByTypeOrThrowException(type);
     }
 
+    @Override
+    public void applyRaceBonuses() {
+        getRace().getBonuses().forEach(bonus -> bonus.apply(this));
+    }
+
     public class Builder {
         private Builder() {
         }
@@ -299,6 +315,8 @@ public class Character implements ICharacter {
             skillManager.getCharacterSkillDetailsSet().forEach( skill -> {
                 attributeManager.getAttributeByTypeOrThrowException(skill.getAttributeType()).addListener(skill);
             });
+
+            Character.this.applyRaceBonuses();
 
             return Character.this;
         }

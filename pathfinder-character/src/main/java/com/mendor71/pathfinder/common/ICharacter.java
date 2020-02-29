@@ -6,4 +6,5 @@ import com.mendor71.pathfinder.common.skills.ISkillManager;
 
 public interface ICharacter extends IAttributeManager, IClassManager, ISkillManager {
 
+    void applyRaceBonuses();
 }

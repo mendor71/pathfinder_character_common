@@ -15,6 +15,8 @@ public class CharacterSkillDetails implements IAttributeListener {
     private long modifier;
     private long bonus;
 
+    private long temporaryBonus = 0;
+
     public CharacterSkillDetails() {
     }
 
@@ -47,6 +49,10 @@ public class CharacterSkillDetails implements IAttributeListener {
         if (this.trainedPoints == 0 && classSkill)
             bonus += 3;
         return this.trainedPoints += bonus;
+    }
+
+    public void increaseTemporaryBonus(long bonus) {
+        this.temporaryBonus += bonus;
     }
 
     public long decreaseValue(long minus) {
@@ -110,7 +116,19 @@ public class CharacterSkillDetails implements IAttributeListener {
     }
 
     public long getSkillValue() {
-        return modifier + trainedPoints + bonus;
+        return modifier + trainedPoints + bonus + temporaryBonus;
+    }
+
+    public long getTemporaryBonus() {
+        return temporaryBonus;
+    }
+
+    public void setTemporaryBonus(long temporaryBonus) {
+        this.temporaryBonus = temporaryBonus;
+    }
+
+    public void resetTemporaryBonus() {
+        this.temporaryBonus = 0;
     }
 
     @Override
