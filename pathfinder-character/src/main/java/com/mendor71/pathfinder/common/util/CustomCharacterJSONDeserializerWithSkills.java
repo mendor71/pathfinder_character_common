@@ -4,12 +4,12 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.mendor71.pathfinder.common.PathfinderCharacter;
 import com.mendor71.pathfinder.common.skills.CharacterSkill;
 import com.mendor71.pathfinder.common.skills.CharacterSkillDetails;
+import com.mendor71.pathfinder.common.skills.PersonifiedSkillManager;
 import com.mendor71.pathfinder.common.skills.SimpleSkillProvider;
-import com.mendor71.pathfinder.common.types.AttributeType;
 import com.mendor71.pathfinder.common.types.SkillType;
+import com.mendor71.pathfinder.common.Character;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -21,7 +21,7 @@ public class CustomCharacterJSONDeserializerWithSkills extends CustomCharacterJS
     }
 
     public CustomCharacterJSONDeserializerWithSkills(CustomCharacterJSONDeserializer baseDeserializer) {
-        super(PathfinderCharacter.class);
+        super(Character.Builder.class);
         this.baseDeserializer = baseDeserializer;
     }
 
@@ -31,17 +31,12 @@ public class CustomCharacterJSONDeserializerWithSkills extends CustomCharacterJS
     }
 
     @Override
-    public PathfinderCharacter deserialize(JsonParser parser, DeserializationContext context) throws IOException {
-        PathfinderCharacter character = baseDeserializer.deserialize(parser, context);
+    public Character.Builder deserialize(JsonParser parser, DeserializationContext context) throws IOException {
+        Character.Builder builder = baseDeserializer.deserialize(parser, context);
         Set<CharacterSkillDetails> detailsSet = new HashSet<>();
 
         JsonNode root = getRoot();
         JsonNode skills = root.get("skills");
-
-        long freeSkillPoints = skills.get("skillPointsFree").longValue();
-        long usedSkillPoints = skills.get("skillPointsUsed").longValue();
-
-        character.setFreeAndUsedSkillPoints(freeSkillPoints, usedSkillPoints);
 
         ArrayNode list = (ArrayNode) skills.get("list");
 
@@ -61,7 +56,7 @@ public class CustomCharacterJSONDeserializerWithSkills extends CustomCharacterJS
             detailsSet.add(skillDetails);
         }
 
-        character.setSkillSet(detailsSet);
-        return character;
+        builder.manageSkills(new PersonifiedSkillManager(builder.getUuid()), detailsSet);
+        return builder;
     }
 }

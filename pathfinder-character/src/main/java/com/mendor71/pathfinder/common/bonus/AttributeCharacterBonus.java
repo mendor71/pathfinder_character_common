@@ -22,6 +22,6 @@ public class AttributeCharacterBonus extends AbstractCharacterBonus implements I
         if (temporary)
             attributeDetails.increaseTempValueBonus(value);
         else
-            attributeDetails.increaseValue(value);
+            attributeDetails.increaseStableValueBonus(value);
     }
 }

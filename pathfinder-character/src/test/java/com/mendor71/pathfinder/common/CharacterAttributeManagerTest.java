@@ -3,6 +3,7 @@ package com.mendor71.pathfinder.common;
 import com.mendor71.pathfinder.common.attributes.CharacterAttributeDetails;
 import com.mendor71.pathfinder.common.attributes.IAttributeManager;
 import com.mendor71.pathfinder.common.attributes.PersonifiedAttributeManager;
+import com.mendor71.pathfinder.common.exceptions.CharacterRaceNotSetException;
 import com.mendor71.pathfinder.common.types.AttributeType;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +12,7 @@ import org.junit.runners.JUnit4;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import static junit.framework.TestCase.assertEquals;
 
@@ -20,8 +22,6 @@ public class CharacterAttributeManagerTest {
 
     @Before
     public void createCharacter() {
-        CharacterBase characterBase = CharacterBase.newBuilder().build();
-
         Set<CharacterAttributeDetails> characterAttributeDetails = new HashSet<>();
 
         characterAttributeDetails.add(new CharacterAttributeDetails(AttributeType.INTELLIGENCE, 10));
@@ -31,7 +31,7 @@ public class CharacterAttributeManagerTest {
         characterAttributeDetails.add(new CharacterAttributeDetails(AttributeType.WISDOM, 10));
         characterAttributeDetails.add(new CharacterAttributeDetails(AttributeType.ENDURANCE, 10));
 
-        attributeManager = new PersonifiedAttributeManager(characterBase.getUuid());
+        attributeManager = new PersonifiedAttributeManager(UUID.randomUUID().toString());
         attributeManager.setAttributesOnControl(characterAttributeDetails);
     }
 

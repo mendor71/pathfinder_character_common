@@ -13,6 +13,16 @@ import java.util.List;
 public class ElfRace implements IRace {
     private static final String name = "ELF";
 
+    private static ElfRace instance;
+
+    private ElfRace() { }
+
+    public static ElfRace getInstance() {
+        if (instance == null)
+            instance = new ElfRace();
+        return instance;
+    }
+
     @Override
     public List<ICharacterBonus> getBonuses() {
         return Arrays.asList(

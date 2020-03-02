@@ -4,15 +4,17 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.mendor71.pathfinder.common.attributes.SimpleCharacterAttributeManager;
-import com.mendor71.pathfinder.common.pathfinderclasses.SimpleCharacterClassManager;
-import com.mendor71.pathfinder.common.skills.SimpleCharacterSkillManager;
-import com.mendor71.pathfinder.common.PathfinderCharacter;
+import com.mendor71.pathfinder.common.Character;
+import com.mendor71.pathfinder.common.CharacterBase;
+import com.mendor71.pathfinder.common.exceptions.CharacterRaceNotSetException;
+import com.mendor71.pathfinder.common.exceptions.RaceNotExiststException;
+import com.mendor71.pathfinder.common.races.RaceManager;
+import com.mendor71.pathfinder.common.races.Races;
 
 import java.awt.*;
 import java.io.IOException;
 
-public class CustomCharacterJSONDeserializer extends StdDeserializer<PathfinderCharacter> {
+public class CustomCharacterJSONDeserializer extends StdDeserializer<Character.Builder> {
     protected CustomCharacterJSONDeserializer baseDeserializer;
     protected JsonNode root;
 
@@ -21,7 +23,7 @@ public class CustomCharacterJSONDeserializer extends StdDeserializer<PathfinderC
     }
 
     public CustomCharacterJSONDeserializer(CustomCharacterJSONDeserializer baseDeserializer) {
-        this(PathfinderCharacter.class);
+        this(Character.Builder.class);
         this.baseDeserializer = baseDeserializer;
     }
 
@@ -30,37 +32,44 @@ public class CustomCharacterJSONDeserializer extends StdDeserializer<PathfinderC
     }
 
     @Override
-    public PathfinderCharacter deserialize(JsonParser parser, DeserializationContext context) throws IOException {
-        PathfinderCharacter pathfinderCharacter = new PathfinderCharacter();
-
-        pathfinderCharacter.setAttributeManager(new SimpleCharacterAttributeManager());
-        pathfinderCharacter.setClassManager(new SimpleCharacterClassManager());
-        pathfinderCharacter.setSkillManager(new SimpleCharacterSkillManager());
-
+    public Character.Builder deserialize(JsonParser parser, DeserializationContext context) throws IOException {
         JsonNode root = parser.getCodec().readTree(parser);
         this.root = root;
         JsonNode properties = root.get("characterProperties");
 
-        pathfinderCharacter.setUuid(properties.get("uuid").asText());
-        pathfinderCharacter.setName(properties.get("name").asText());
-        pathfinderCharacter.setLevel(properties.get("level").longValue());
-        pathfinderCharacter.setAge(properties.get("age").longValue());
-        pathfinderCharacter.setArmorClass(properties.get("armorClass").longValue());
-        pathfinderCharacter.setHeight(properties.get("height").longValue());
-        pathfinderCharacter.setWeight(properties.get("weight").longValue());
+        CharacterBase.Builder builder = null;
+
+        builder = CharacterBase
+            .newBuilder(properties.get("uuid").asText())
+            .setArmorClass(properties.get("armorClass").longValue())
+            .setName(properties.get("name").asText())
+            .setLevel(properties.get("level").longValue())
+            .setAge(properties.get("age").longValue())
+            .setHeight(properties.get("height").longValue())
+            .setWeight(properties.get("weight").longValue());
+
+        try {
+            builder.setRace(RaceManager.get(Races.valueOf(properties.get("race").asText())));
+        } catch (RaceNotExiststException e) {
+            throw new IllegalStateException(e.getMessage(), e);
+        }
 
         JsonNode eyeColorNode = properties.get("eyeColor");
-        if ( eyeColorNode.hasNonNull("R") && eyeColorNode.hasNonNull("G") && eyeColorNode.hasNonNull("B") ) {
+        if (eyeColorNode.hasNonNull("R") && eyeColorNode.hasNonNull("G") && eyeColorNode.hasNonNull("B")) {
             Color eyeColor = new Color(eyeColorNode.get("R").asInt(), eyeColorNode.get("G").asInt(), eyeColorNode.get("B").asInt());
-            pathfinderCharacter.setEyeColor(eyeColor);
+            builder.setEyeColor(eyeColor);
         }
 
         JsonNode hairColorNode = properties.get("hairColor");
         if (hairColorNode.hasNonNull("R") && hairColorNode.hasNonNull("G") && hairColorNode.hasNonNull("B")) {
             Color hairColor = new Color(hairColorNode.get("R").asInt(), hairColorNode.get("G").asInt(), hairColorNode.get("B").asInt());
-            pathfinderCharacter.setHairColor(hairColor);
+            builder.setHairColor(hairColor);
         }
 
-        return pathfinderCharacter;
+        try {
+            return Character.newBuilder().setCharacterBase(builder.build());
+        } catch (CharacterRaceNotSetException e) {
+            throw new IllegalStateException(e.getMessage(), e);
+        }
     }
 }

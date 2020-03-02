@@ -3,14 +3,10 @@ package com.mendor71.pathfinder.common.skills;
 import com.mendor71.pathfinder.common.attributes.IAttributeListener;
 import com.mendor71.pathfinder.common.types.AttributeType;
 import com.mendor71.pathfinder.common.types.SkillType;
-import com.mendor71.pathfinder.common.PathfinderCharacter;
 
 public class CharacterSkillDetails implements IAttributeListener {
     private long id;
-
     private CharacterSkill skill;
-    private PathfinderCharacter character;
-
     private long trainedPoints;
     private long attributeModifier;
     private long stableBonus;
@@ -28,18 +24,6 @@ public class CharacterSkillDetails implements IAttributeListener {
     public CharacterSkillDetails(CharacterSkill skill, long trainedPoints) {
         this.skill = skill;
         this.trainedPoints = trainedPoints;
-    }
-
-    public CharacterSkillDetails(PathfinderCharacter character, CharacterSkill skill) {
-        this.skill = skill;
-        this.character = character;
-        this.trainedPoints = 0;
-    }
-
-    public CharacterSkillDetails(PathfinderCharacter character, CharacterSkill skill, long trainedPoints) {
-        this.skill = skill;
-        this.trainedPoints = trainedPoints;
-        this.character = character;
     }
 
     public long increaseStableBonus(long value) {
@@ -87,10 +71,6 @@ public class CharacterSkillDetails implements IAttributeListener {
         return skill;
     }
 
-    public PathfinderCharacter getCharacter() {
-        return character;
-    }
-
     public long getTrainedPoints() {
         return trainedPoints;
     }
@@ -121,10 +101,6 @@ public class CharacterSkillDetails implements IAttributeListener {
 
     public void setSkill(CharacterSkill skill) {
         this.skill = skill;
-    }
-
-    public void setCharacter(PathfinderCharacter character) {
-        this.character = character;
     }
 
     public void setTrainedPoints(long trainedPoints) {

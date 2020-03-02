@@ -2,8 +2,9 @@ package com.mendor71.pathfinder.common.util;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.mendor71.pathfinder.common.PathfinderCharacter;
+import com.mendor71.pathfinder.common.exceptions.RaceNotExiststException;
 import com.mendor71.pathfinder.common.pathfinderclasses.CharacterClassDetails;
+import com.mendor71.pathfinder.common.Character;
 
 import java.util.Set;
 
@@ -13,7 +14,7 @@ public class CustomCharacterJSONSerializerWithClasses extends CustomCharacterJSO
     }
 
     @Override
-    public ObjectNode serialize(PathfinderCharacter character) {
+    public ObjectNode serialize(Character character) throws RaceNotExiststException {
         ObjectNode root = basePreSerializer.serialize(character);
         Set<CharacterClassDetails> characterClasses = character.getCharacterClasses();
 

@@ -5,8 +5,9 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.mendor71.pathfinder.common.attributes.CharacterAttributeDetails;
-import com.mendor71.pathfinder.common.PathfinderCharacter;
+import com.mendor71.pathfinder.common.attributes.PersonifiedAttributeManager;
 import com.mendor71.pathfinder.common.types.AttributeType;
+import com.mendor71.pathfinder.common.Character;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -19,7 +20,7 @@ public class CustomCharacterJSONDeserializerWihAttributes extends CustomCharacte
     }
 
     public CustomCharacterJSONDeserializerWihAttributes(CustomCharacterJSONDeserializer baseDeserializer) {
-        super(PathfinderCharacter.class);
+        super(Character.Builder.class);
         this.baseDeserializer = baseDeserializer;
     }
 
@@ -29,8 +30,8 @@ public class CustomCharacterJSONDeserializerWihAttributes extends CustomCharacte
     }
 
     @Override
-    public PathfinderCharacter deserialize(JsonParser parser, DeserializationContext context) throws IOException {
-        PathfinderCharacter character = baseDeserializer.deserialize(parser, context);
+    public Character.Builder deserialize(JsonParser parser, DeserializationContext context) throws IOException {
+        Character.Builder builder = baseDeserializer.deserialize(parser, context);
 
         ArrayNode attributes = (ArrayNode) getRoot().get("attributes");
 
@@ -41,13 +42,14 @@ public class CustomCharacterJSONDeserializerWihAttributes extends CustomCharacte
             AttributeType type = AttributeType.byName(attr.get("type").asText());
             details.setType(type);
             details.setValue(attr.get("value").longValue());
+            details.setStableValueBonus(attr.get("stableValueBonus").longValue());
             details.setTempValueBonus(attr.get("tempValueBonus").longValue());
             details.setTempModifierBonus(attr.get("tempModifierBonus").longValue());
             details.setId(attr.get("id").longValue());
             attributeDetailsSet.add(details);
         }
 
-        character.setAttributes(attributeDetailsSet);
-        return character;
+        builder.manageAttributes(new PersonifiedAttributeManager(builder.getUuid()), attributeDetailsSet);
+        return builder;
     }
 }

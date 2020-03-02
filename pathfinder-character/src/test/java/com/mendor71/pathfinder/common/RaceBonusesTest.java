@@ -1,17 +1,21 @@
 package com.mendor71.pathfinder.common;
 
+import com.mendor71.pathfinder.common.exceptions.RaceNotExiststException;
 import com.mendor71.pathfinder.common.races.ElfRace;
+import com.mendor71.pathfinder.common.races.IRace;
+import com.mendor71.pathfinder.common.races.RaceManager;
+import com.mendor71.pathfinder.common.races.Races;
 import org.junit.Before;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertFalse;
 
 public class RaceBonusesTest {
-    private ElfRace elfRace;
+    private IRace elfRace;
 
     @Before
-    public void before() {
-        elfRace = new ElfRace();
+    public void before() throws RaceNotExiststException {
+        elfRace = RaceManager.get(Races.ELF);
     }
 
     @Test
