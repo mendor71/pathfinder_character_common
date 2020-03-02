@@ -27,6 +27,7 @@
         <module>character-inventory</module>
         <module>pathfinder-utils</module>
         <module>pathfinder-fight</module>
+        <module>web</module>
     </modules>
 
     <dependencies>
