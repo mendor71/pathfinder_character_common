@@ -1,5 +1,6 @@
 package com.mendor71.pathfinder.common;
 
+import com.mendor71.pathfinder.common.exceptions.CharacterRaceNotSetException;
 import com.mendor71.pathfinder.common.skills.CharacterSkillDetails;
 import com.mendor71.pathfinder.common.skills.ISkillManager;
 import com.mendor71.pathfinder.common.skills.PersonifiedSkillManager;
@@ -13,6 +14,7 @@ import org.junit.runners.JUnit4;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import static junit.framework.TestCase.assertEquals;
 
@@ -21,10 +23,8 @@ public class CharacterSkillManagerTest {
     private ISkillManager skillManager;
 
     @Before
-    public void before() {
-        CharacterBase characterBase = CharacterBase.newBuilder().build();
-
-        skillManager = new PersonifiedSkillManager(characterBase.getUuid());
+    public void before()  {
+        skillManager = new PersonifiedSkillManager(UUID.randomUUID().toString());
 
         Set<CharacterSkillDetails> skillSet = new HashSet<>();
         SimpleSkillProvider skillProvider = SimpleSkillProvider.getInstance();

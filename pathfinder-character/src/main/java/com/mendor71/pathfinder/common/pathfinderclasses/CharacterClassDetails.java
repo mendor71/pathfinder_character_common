@@ -1,10 +1,7 @@
 package com.mendor71.pathfinder.common.pathfinderclasses;
 
-import com.mendor71.pathfinder.common.PathfinderCharacter;
-
 public class CharacterClassDetails {
     private Long id;
-    private PathfinderCharacter character;
     private ICharacterClass characterClass;
     private long level;
 
@@ -17,10 +14,6 @@ public class CharacterClassDetails {
         return id == null ? -1 : id;
     }
 
-    public PathfinderCharacter getCharacter() {
-        return character;
-    }
-
     public ICharacterClass getCharacterClass() {
         return characterClass;
     }
@@ -31,11 +24,6 @@ public class CharacterClassDetails {
 
     public long getLevel() {
         return level;
-    }
-
-    public CharacterClassDetails setCharacter(PathfinderCharacter character) {
-        this.character = character;
-        return this;
     }
 
     public String getClassName() {

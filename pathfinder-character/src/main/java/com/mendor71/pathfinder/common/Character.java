@@ -324,6 +324,10 @@ public class Character implements ICharacter {
         private Builder() {
         }
 
+        public String getUuid() {
+            return Character.this.characterBase.getUuid();
+        }
+
         public Builder manageAttributes(IAttributeManager attributeManager, Set<CharacterAttributeDetails> attributeDetails) {
             Character.this.attributeManager = attributeManager;
             Character.this.attributeManager.setAttributesOnControl(attributeDetails);

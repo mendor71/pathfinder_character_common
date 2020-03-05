@@ -1,6 +1,6 @@
 package com.mendor71.pathfinder.fight.damageproviders;
 
-import com.mendor71.pathfinder.common.PathfinderCharacter;
+import com.mendor71.pathfinder.common.ICharacter;
 import com.mendor71.pathfinder.common.types.AttributeType;
 import com.mendor71.pathfinder.common.types.DamageType;
 import com.mendor71.pathfinder.fight.DamageInstance;
@@ -15,7 +15,7 @@ public class PhysicalDamageProvider implements IDamageProvider {
     private int criticalChancePercent;
     private boolean twoHanded;
     private double twoHandDamageBonus;
-    private PathfinderCharacter weaponOwner;
+    private ICharacter weaponOwner;
     private boolean useAgilityBonus;
     private boolean useStrengthBonus;
     private String name;
@@ -88,7 +88,7 @@ public class PhysicalDamageProvider implements IDamageProvider {
     }
 
     @Override
-    public void setOwner(PathfinderCharacter character) {
+    public void setOwner(ICharacter character) {
         this.weaponOwner = character;
     }
 

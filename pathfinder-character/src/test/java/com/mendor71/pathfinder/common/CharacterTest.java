@@ -3,14 +3,14 @@ package com.mendor71.pathfinder.common;
 import com.mendor71.pathfinder.common.attributes.CharacterAttributeDetails;
 import com.mendor71.pathfinder.common.attributes.IAttributeManager;
 import com.mendor71.pathfinder.common.attributes.PersonifiedAttributeManager;
-import com.mendor71.pathfinder.common.exceptions.CharacterSkillAlreadyExistsException;
-import com.mendor71.pathfinder.common.exceptions.CharacterSkillListIllegalStateException;
-import com.mendor71.pathfinder.common.exceptions.NotEnoughSkillPointsException;
+import com.mendor71.pathfinder.common.exceptions.*;
 import com.mendor71.pathfinder.common.pathfinderclasses.CharacterClass;
 import com.mendor71.pathfinder.common.pathfinderclasses.CharacterClassDetails;
 import com.mendor71.pathfinder.common.pathfinderclasses.IClassManager;
 import com.mendor71.pathfinder.common.pathfinderclasses.PersonifiedClassManager;
 import com.mendor71.pathfinder.common.races.ElfRace;
+import com.mendor71.pathfinder.common.races.RaceManager;
+import com.mendor71.pathfinder.common.races.Races;
 import com.mendor71.pathfinder.common.skills.CharacterSkillDetails;
 import com.mendor71.pathfinder.common.skills.ISkillManager;
 import com.mendor71.pathfinder.common.skills.PersonifiedSkillManager;
@@ -35,8 +35,8 @@ public class CharacterTest {
     private Character character;
 
     @Before
-    public void before() throws CharacterSkillListIllegalStateException, CharacterSkillAlreadyExistsException {
-        CharacterBase characterBase = CharacterBase.newBuilder().setRace(new ElfRace()).build();
+    public void before() throws CharacterSkillListIllegalStateException, CharacterSkillAlreadyExistsException, CharacterRaceNotSetException, RaceNotExiststException {
+        CharacterBase characterBase = CharacterBase.newBuilder().setRace(RaceManager.get(Races.ELF)).build();
 
         IClassManager classManager = new PersonifiedClassManager(characterBase.getUuid());
         IAttributeManager attributeManager = new PersonifiedAttributeManager(characterBase.getUuid());

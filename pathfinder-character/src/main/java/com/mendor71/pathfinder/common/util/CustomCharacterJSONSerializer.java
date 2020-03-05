@@ -2,7 +2,10 @@ package com.mendor71.pathfinder.common.util;
 
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.mendor71.pathfinder.common.PathfinderCharacter;
+
+import com.mendor71.pathfinder.common.Character;
+import com.mendor71.pathfinder.common.exceptions.RaceNotExiststException;
+import com.mendor71.pathfinder.common.races.RaceManager;
 
 import java.awt.*;
 
@@ -17,21 +20,22 @@ public class CustomCharacterJSONSerializer implements IJSONSerializer {
     }
 
     @Override
-    public ObjectNode serialize(PathfinderCharacter character) {
+    public ObjectNode serialize(Character character) throws RaceNotExiststException {
         return appendCharacterData(character);
     }
 
-    private ObjectNode appendCharacterData(PathfinderCharacter character) {
+    private ObjectNode appendCharacterData(Character character) throws RaceNotExiststException {
         ObjectNode root = JsonNodeFactory.instance.objectNode();
         ObjectNode properties = root.putObject("characterProperties");
 
-        properties.put("uuid", character.getUUID());
+        properties.put("uuid", character.getUuid());
         properties.put("name", character.getName());
         properties.put("level", character.getLevel());
         properties.put("age", character.getAge());
         properties.put("armorClass", character.getArmorClass());
-        properties.put("height", character.getHeight().toString());
-        properties.put("weight", character.getWeight().toString());
+        properties.put("height", character.getHeight());
+        properties.put("weight", character.getWeight());
+        properties.put("race", RaceManager.getNameByRace(character.getRace()).toString());
 
         ObjectNode eyeColorNode = properties.putObject("eyeColor");
         Color eyeColor = character.getEyeColor();

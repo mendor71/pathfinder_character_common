@@ -1,5 +1,6 @@
 package com.mendor71.pathfinder.common;
 
+import com.mendor71.pathfinder.common.exceptions.CharacterRaceNotSetException;
 import com.mendor71.pathfinder.common.pathfinderclasses.CharacterClass;
 import com.mendor71.pathfinder.common.pathfinderclasses.CharacterClassDetails;
 import com.mendor71.pathfinder.common.pathfinderclasses.IClassManager;
@@ -12,6 +13,7 @@ import org.junit.runners.JUnit4;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import static junit.framework.TestCase.assertEquals;
 
@@ -21,14 +23,12 @@ public class CharacterClassManagerTest {
 
     @Before
     public void before() {
-        CharacterBase characterBase = CharacterBase.newBuilder().build();
-
         Set<CharacterClassDetails> classDetails = new HashSet<>();
 
         classDetails.add(new CharacterClassDetails(CharacterClass.getInstance(ClassType.RANGER), 1));
         classDetails.add(new CharacterClassDetails(CharacterClass.getInstance(ClassType.FIGHTER), 2));
 
-        classManager = new PersonifiedClassManager(characterBase.getUuid());
+        classManager = new PersonifiedClassManager(UUID.randomUUID().toString());
         classManager.setClassesOnControl(classDetails);
     }
 

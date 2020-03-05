@@ -10,7 +10,7 @@ public class CharacterAttributeDetails implements IAttributeNotifier {
     private Long id;
     private AttributeType type;
     private long value;
-    //private long modifier;
+    private long stableValueBonus;
     private long tempValueBonus;
     private long tempModifierBonus;
 
@@ -29,6 +29,11 @@ public class CharacterAttributeDetails implements IAttributeNotifier {
         return id == null ? -1 : id;
     }
 
+    public CharacterAttributeDetails setId(Long id) {
+        this.id = id;
+        return this;
+    }
+
     public void setType(AttributeType type) {
         this.type = type;
     }
@@ -40,12 +45,13 @@ public class CharacterAttributeDetails implements IAttributeNotifier {
     }
     @Override
     public void notifyListeners() {
-        listenersList.forEach(v -> v.update(value+tempValueBonus, calculateModifier()));
+        listenersList.forEach(v -> v.update(value + tempValueBonus + stableValueBonus, calculateModifier()));
     }
 
-    private void changeValue(long addToValue, long addToTmpBonus) {
+    private void changeValue(long addToValue, long addToTmpBonus, long addToStableBonus) {
         value += addToValue;
         tempValueBonus += addToTmpBonus;
+        addToStableBonus += addToStableBonus;
         notifyListeners();
     }
 
@@ -55,38 +61,38 @@ public class CharacterAttributeDetails implements IAttributeNotifier {
     }
 
     public long increaseValue(long addValue) {
-        changeValue(addValue, 0);
+        changeValue(addValue, 0, 0);
         return value;
+    }
+
+    public long increaseStableValueBonus(long value) {
+        changeValue(0, 0, value);
+        return stableValueBonus;
     }
 
     public long decreaseValue(long addValue) {
-        changeValue(-addValue, 0);
+        changeValue(-addValue, 0, 0);
         return value;
     }
 
+    public long decreaseStableValueBonus(long value) {
+        changeValue(0, 0, -value);
+        return stableValueBonus;
+    }
+
     private long calculateModifier() {
-        long modifier = (value + tempValueBonus - 10) / 2;
+        long modifier = (value + tempValueBonus + stableValueBonus - 10) / 2;
         if (tempModifierBonus != 0)
             modifier += tempModifierBonus;
         return modifier;
     }
 
-    public void setTempValueBonus(long value) {
-        this.tempValueBonus = value;
-        notifyListeners();
-    }
-
-    public void setTempModifierBonus(long value) {
-        this.tempModifierBonus = value;
-        notifyListeners();
-    }
-
     public void increaseTempValueBonus(long value) {
-        changeValue(0, value);
+        changeValue(0, value, 0);
     }
 
     public void decreaseTempValueBonus(long value) {
-        changeValue(0, -value);
+        changeValue(0, -value, 0);
     }
 
     public void increaseTempModifierBonus(long value) {
@@ -106,7 +112,7 @@ public class CharacterAttributeDetails implements IAttributeNotifier {
     }
 
     public long getValue() {
-        return value + tempValueBonus;
+        return value + tempValueBonus + stableValueBonus;
     }
 
     public void setValue(long value) {
@@ -114,13 +120,27 @@ public class CharacterAttributeDetails implements IAttributeNotifier {
         notifyListeners();
     }
 
-    public CharacterAttributeDetails setId(Long id) {
-        this.id = id;
-        return this;
+    public void setTempValueBonus(long value) {
+        this.tempValueBonus = value;
+        notifyListeners();
+    }
+
+    public long getStableValueBonus() {
+        return stableValueBonus;
+    }
+
+    public void setStableValueBonus(long stableBonus) {
+        this.stableValueBonus = stableBonus;
+        notifyListeners();
     }
 
     public long getTempValueBonus() {
         return tempValueBonus;
+    }
+
+    public void setTempModifierBonus(long value) {
+        this.tempModifierBonus = value;
+        notifyListeners();
     }
 
     public long getTempModifierBonus() {

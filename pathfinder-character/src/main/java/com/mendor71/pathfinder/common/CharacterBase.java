@@ -1,5 +1,6 @@
 package com.mendor71.pathfinder.common;
 
+import com.mendor71.pathfinder.common.exceptions.CharacterRaceNotSetException;
 import com.mendor71.pathfinder.common.races.IRace;
 
 import java.awt.*;
@@ -25,6 +26,12 @@ public class CharacterBase {
 
     public static Builder newBuilder() {
         return new CharacterBase().new Builder();
+    }
+
+    public static Builder newBuilder(String uuid) {
+        CharacterBase base = new CharacterBase();
+        base.uuid = uuid;
+        return base.new Builder();
     }
 
     public String getUuid() {
@@ -82,6 +89,7 @@ public class CharacterBase {
     public void setAge(long age) {
         this.age = age;
     }
+
 
     public class Builder {
         private Builder() {}
@@ -141,7 +149,9 @@ public class CharacterBase {
             return this;
         }
 
-        public CharacterBase build() {
+        public CharacterBase build() throws CharacterRaceNotSetException {
+            if (CharacterBase.this.race == null)
+                throw new CharacterRaceNotSetException("Race for character " + uuid + " not set!");
             return CharacterBase.this;
         }
     }

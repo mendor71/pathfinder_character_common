@@ -6,8 +6,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.mendor71.pathfinder.common.pathfinderclasses.CharacterClassDetails;
 import com.mendor71.pathfinder.common.pathfinderclasses.CharacterClass;
+import com.mendor71.pathfinder.common.pathfinderclasses.PersonifiedClassManager;
 import com.mendor71.pathfinder.common.types.ClassType;
-import com.mendor71.pathfinder.common.PathfinderCharacter;
+import com.mendor71.pathfinder.common.Character;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -16,7 +17,7 @@ import java.util.Set;
 public class CustomCharacterJSONDeserializerWithClasses extends CustomCharacterJSONDeserializer {
 
     public CustomCharacterJSONDeserializerWithClasses(CustomCharacterJSONDeserializer baseDeserializer) {
-        super(PathfinderCharacter.class);
+        super(Character.Builder.class);
         this.baseDeserializer = baseDeserializer;
     }
 
@@ -26,8 +27,8 @@ public class CustomCharacterJSONDeserializerWithClasses extends CustomCharacterJ
     }
 
     @Override
-    public PathfinderCharacter deserialize(JsonParser parser, DeserializationContext context) throws IOException {
-        PathfinderCharacter character =  baseDeserializer.deserialize(parser, context);
+    public Character.Builder deserialize(JsonParser parser, DeserializationContext context) throws IOException {
+        Character.Builder builder =  baseDeserializer.deserialize(parser, context);
 
         JsonNode root = getRoot();
         ArrayNode classes = (ArrayNode) root.get("classes");
@@ -43,7 +44,7 @@ public class CustomCharacterJSONDeserializerWithClasses extends CustomCharacterJ
             classDetailsSet.add(details);
         }
 
-        character.setClasses(classDetailsSet);
-        return character;
+        builder.manageClasses(new PersonifiedClassManager(builder.getUuid()), classDetailsSet);
+        return builder;
     }
 }
