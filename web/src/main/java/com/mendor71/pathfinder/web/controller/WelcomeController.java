@@ -8,6 +8,6 @@ public class WelcomeController {
 
     @RequestMapping(path = "/")
     public String hello() {
-        return "<h1>HELLO!<h1>";
+        return "welcome";
     }
 }

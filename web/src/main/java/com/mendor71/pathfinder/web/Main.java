@@ -5,9 +5,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.ComponentScan;
 
-@SpringBootApplication
-public class Main extends SpringBootServletInitializer implements CommandLineRunner {
+@SpringBootApplication(scanBasePackages = {"com.mendor71.pathfinder.web"})
+public class Main extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
@@ -16,10 +17,5 @@ public class Main extends SpringBootServletInitializer implements CommandLineRun
 
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
-    }
-
-    @Override
-    public void run(String... args) throws Exception {
-
     }
 }
