@@ -11,14 +11,14 @@ import java.util.List;
 @RestController
 public class CharacterController {
 
-    @RequestMapping(path = "/character", method = RequestMethod.GET)
-    public List<Character> getCharacterList() {
-
-    }
-
-    @RequestMapping(path = "/character/{id}", method = RequestMethod.GET)
-    public List<Character> getCharacterById(@RequestParam(name = "id") String id) {
-
-    }
+//    @RequestMapping(path = "/character", method = RequestMethod.GET)
+//    public List<Character> getCharacterList() {
+//
+//    }
+//
+//    @RequestMapping(path = "/character/{id}", method = RequestMethod.GET)
+//    public List<Character> getCharacterById(@RequestParam(name = "id") String id) {
+//
+//    }
 
 }
