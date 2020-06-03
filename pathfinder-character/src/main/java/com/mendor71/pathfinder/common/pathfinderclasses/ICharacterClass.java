@@ -1,6 +1,5 @@
 package com.mendor71.pathfinder.common.pathfinderclasses;
 
-import com.mendor71.pathfinder.common.skills.CharacterSkill;
 import com.mendor71.pathfinder.common.types.ClassType;
 import com.mendor71.pathfinder.common.types.SkillType;
 

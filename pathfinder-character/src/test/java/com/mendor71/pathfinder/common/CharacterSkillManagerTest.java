@@ -1,7 +1,6 @@
 package com.mendor71.pathfinder.common;
 
-import com.mendor71.pathfinder.common.exceptions.CharacterRaceNotSetException;
-import com.mendor71.pathfinder.common.skills.CharacterSkillDetails;
+import com.mendor71.pathfinder.common.skills.CharacterSkill;
 import com.mendor71.pathfinder.common.skills.ISkillManager;
 import com.mendor71.pathfinder.common.skills.PersonifiedSkillManager;
 import com.mendor71.pathfinder.common.skills.SimpleSkillProvider;
@@ -26,12 +25,12 @@ public class CharacterSkillManagerTest {
     public void before()  {
         skillManager = new PersonifiedSkillManager(UUID.randomUUID().toString());
 
-        Set<CharacterSkillDetails> skillSet = new HashSet<>();
+        Set<CharacterSkill> skillSet = new HashSet<>();
         SimpleSkillProvider skillProvider = SimpleSkillProvider.getInstance();
 
-        skillSet.add(new CharacterSkillDetails(skillProvider.getSkillByType(SkillType.Survival), 3));
-        skillSet.add(new CharacterSkillDetails(skillProvider.getSkillByType(SkillType.DisableDevice), 5));
-        skillSet.add(new CharacterSkillDetails(skillProvider.getSkillByType(SkillType.Heal), 2));
+        skillSet.add(new CharacterSkill(skillProvider.getSkillByType(SkillType.Survival), 3));
+        skillSet.add(new CharacterSkill(skillProvider.getSkillByType(SkillType.DisableDevice), 5));
+        skillSet.add(new CharacterSkill(skillProvider.getSkillByType(SkillType.Heal), 2));
 
         Set<SkillType> classSkills = EnumSet.noneOf(SkillType.class);
         classSkills.add(SkillType.DisableDevice);

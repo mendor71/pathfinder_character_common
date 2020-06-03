@@ -1,6 +1,6 @@
 package com.mendor71.pathfinder.common;
 
-import com.mendor71.pathfinder.common.skills.CharacterSkill;
+import com.mendor71.pathfinder.common.skills.Skill;
 import com.mendor71.pathfinder.common.types.AttributeType;
 import com.mendor71.pathfinder.common.types.SkillType;
 import com.mendor71.pathfinder.common.skills.SimpleSkillProvider;
@@ -17,7 +17,7 @@ public class SimpleSkillProviderTest {
     public void testSkillFactoryReturnCorrectSkillInstance() {
         SimpleSkillProvider simpleSkillProvider = SimpleSkillProvider.getInstance();
 
-        CharacterSkill skill = simpleSkillProvider.getSkillByType(SkillType.Survival);
+        Skill skill = simpleSkillProvider.getSkillByType(SkillType.Survival);
 
         assertTrue(skill.useUntrained());
         assertEquals(skill.getAttributeType(), AttributeType.WISDOM);

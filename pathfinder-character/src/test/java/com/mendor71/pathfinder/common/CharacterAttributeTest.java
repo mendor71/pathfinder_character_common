@@ -1,6 +1,6 @@
 package com.mendor71.pathfinder.common;
 
-import com.mendor71.pathfinder.common.attributes.CharacterAttributeDetails;
+import com.mendor71.pathfinder.common.attributes.CharacterAttribute;
 import com.mendor71.pathfinder.common.types.AttributeType;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,11 +9,11 @@ import static junit.framework.TestCase.assertEquals;
 
 
 public class CharacterAttributeTest {
-    private CharacterAttributeDetails characterAttribute;
+    private CharacterAttribute characterAttribute;
 
     @Before
     public void before() {
-        characterAttribute = new CharacterAttributeDetails(AttributeType.STRENGTH, 10);
+        characterAttribute = new CharacterAttribute(AttributeType.STRENGTH, 10);
     }
 
     @Test

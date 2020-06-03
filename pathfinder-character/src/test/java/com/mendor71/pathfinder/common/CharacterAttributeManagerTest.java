@@ -1,9 +1,8 @@
 package com.mendor71.pathfinder.common;
 
-import com.mendor71.pathfinder.common.attributes.CharacterAttributeDetails;
+import com.mendor71.pathfinder.common.attributes.CharacterAttribute;
 import com.mendor71.pathfinder.common.attributes.IAttributeManager;
 import com.mendor71.pathfinder.common.attributes.PersonifiedAttributeManager;
-import com.mendor71.pathfinder.common.exceptions.CharacterRaceNotSetException;
 import com.mendor71.pathfinder.common.types.AttributeType;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,14 +21,14 @@ public class CharacterAttributeManagerTest {
 
     @Before
     public void createCharacter() {
-        Set<CharacterAttributeDetails> characterAttributeDetails = new HashSet<>();
+        Set<CharacterAttribute> characterAttributeDetails = new HashSet<>();
 
-        characterAttributeDetails.add(new CharacterAttributeDetails(AttributeType.INTELLIGENCE, 10));
-        characterAttributeDetails.add(new CharacterAttributeDetails(AttributeType.AGILITY, 10));
-        characterAttributeDetails.add(new CharacterAttributeDetails(AttributeType.CHARISMA, 10));
-        characterAttributeDetails.add(new CharacterAttributeDetails(AttributeType.STRENGTH, 10));
-        characterAttributeDetails.add(new CharacterAttributeDetails(AttributeType.WISDOM, 10));
-        characterAttributeDetails.add(new CharacterAttributeDetails(AttributeType.ENDURANCE, 10));
+        characterAttributeDetails.add(new CharacterAttribute(AttributeType.INTELLIGENCE, 10));
+        characterAttributeDetails.add(new CharacterAttribute(AttributeType.AGILITY, 10));
+        characterAttributeDetails.add(new CharacterAttribute(AttributeType.CHARISMA, 10));
+        characterAttributeDetails.add(new CharacterAttribute(AttributeType.STRENGTH, 10));
+        characterAttributeDetails.add(new CharacterAttribute(AttributeType.WISDOM, 10));
+        characterAttributeDetails.add(new CharacterAttribute(AttributeType.ENDURANCE, 10));
 
         attributeManager = new PersonifiedAttributeManager(UUID.randomUUID().toString());
         attributeManager.setAttributesOnControl(characterAttributeDetails);

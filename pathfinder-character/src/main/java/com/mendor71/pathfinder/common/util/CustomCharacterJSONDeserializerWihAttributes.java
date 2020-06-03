@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.mendor71.pathfinder.common.attributes.CharacterAttributeDetails;
+import com.mendor71.pathfinder.common.attributes.CharacterAttribute;
 import com.mendor71.pathfinder.common.attributes.PersonifiedAttributeManager;
 import com.mendor71.pathfinder.common.types.AttributeType;
 import com.mendor71.pathfinder.common.Character;
@@ -35,10 +35,10 @@ public class CustomCharacterJSONDeserializerWihAttributes extends CustomCharacte
 
         ArrayNode attributes = (ArrayNode) getRoot().get("attributes");
 
-        Set<CharacterAttributeDetails> attributeDetailsSet = new HashSet<>();
+        Set<CharacterAttribute> attributeDetailsSet = new HashSet<>();
 
         for (JsonNode attr: attributes) {
-            CharacterAttributeDetails details = new CharacterAttributeDetails();
+            CharacterAttribute details = new CharacterAttribute();
             AttributeType type = AttributeType.byName(attr.get("type").asText());
             details.setType(type);
             details.setValue(attr.get("value").longValue());

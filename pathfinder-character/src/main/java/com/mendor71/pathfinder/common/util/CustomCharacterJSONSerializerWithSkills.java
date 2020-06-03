@@ -3,7 +3,7 @@ package com.mendor71.pathfinder.common.util;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.mendor71.pathfinder.common.exceptions.RaceNotExiststException;
-import com.mendor71.pathfinder.common.skills.CharacterSkillDetails;
+import com.mendor71.pathfinder.common.skills.CharacterSkill;
 import com.mendor71.pathfinder.common.Character;
 
 import java.util.Set;
@@ -18,7 +18,7 @@ public class CustomCharacterJSONSerializerWithSkills extends CustomCharacterJSON
     public ObjectNode serialize(Character character) throws RaceNotExiststException {
         ObjectNode root = basePreSerializer.serialize(character);
 
-        Set<CharacterSkillDetails> characterSkills = character.getCharacterSkillDetailsSet();
+        Set<CharacterSkill> characterSkills = character.getCharacterSkillDetailsSet();
 
         ObjectNode skills = root.putObject("skills");
 
@@ -27,7 +27,7 @@ public class CustomCharacterJSONSerializerWithSkills extends CustomCharacterJSON
 
         ArrayNode list = skills.putArray("list");
 
-        for (CharacterSkillDetails d: characterSkills) {
+        for (CharacterSkill d: characterSkills) {
             ObjectNode skill = list.addObject();
 
             skill.put("type", d.getSkillType().toString());

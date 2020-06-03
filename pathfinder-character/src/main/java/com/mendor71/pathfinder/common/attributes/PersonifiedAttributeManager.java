@@ -6,18 +6,18 @@ import java.util.*;
 
 public class PersonifiedAttributeManager implements IAttributeManager {
     private String characterId;
-    private Map<AttributeType, CharacterAttributeDetails> attributeDetailsMap = new EnumMap<>(AttributeType.class);
+    private Map<AttributeType, CharacterAttribute> attributeDetailsMap = new EnumMap<>(AttributeType.class);
 
     public PersonifiedAttributeManager(String characterId) {
         this.characterId = characterId;
     }
 
-    public PersonifiedAttributeManager(String characterId, Map<AttributeType, CharacterAttributeDetails> attributeDetailsSet) {
+    public PersonifiedAttributeManager(String characterId, Map<AttributeType, CharacterAttribute> attributeDetailsSet) {
         this.characterId = characterId;
         this.attributeDetailsMap = attributeDetailsSet;
     }
 
-    public PersonifiedAttributeManager(String characterId, Set<CharacterAttributeDetails> attributeDetails) {
+    public PersonifiedAttributeManager(String characterId, Set<CharacterAttribute> attributeDetails) {
         this.characterId = characterId;
         setAttributesOnControl(attributeDetails);
     }
@@ -49,22 +49,22 @@ public class PersonifiedAttributeManager implements IAttributeManager {
     }
 
     @Override
-    public Set<CharacterAttributeDetails> getCharacterAttributes() {
+    public Set<CharacterAttribute> getCharacterAttributes() {
         return new HashSet<>(attributeDetailsMap.values());
     }
 
     @Override
-    public void setAttributesOnControl(Set<CharacterAttributeDetails> controlObjects) {
+    public void setAttributesOnControl(Set<CharacterAttribute> controlObjects) {
         controlObjects.forEach(attrDetails -> attributeDetailsMap.put(attrDetails.getType(), attrDetails));
     }
 
     @Override
-    public CharacterAttributeDetails getAttributeDetails(AttributeType type) {
+    public CharacterAttribute getAttributeDetails(AttributeType type) {
         return getAttributeByTypeOrThrowException(type);
     }
 
     @Override
-    public CharacterAttributeDetails getAttributeByTypeOrThrowException(AttributeType type) throws IllegalStateException {
+    public CharacterAttribute getAttributeByTypeOrThrowException(AttributeType type) throws IllegalStateException {
         if (!attributeDetailsMap.containsKey(type))
             throw new IllegalStateException("Attribute list for character: " + characterId + " must contains exactly one attribute with type " + type);
         return attributeDetailsMap.get(type);

@@ -2,7 +2,7 @@ package com.mendor71.pathfinder.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.mendor71.pathfinder.common.attributes.CharacterAttributeDetails;
+import com.mendor71.pathfinder.common.attributes.CharacterAttribute;
 import com.mendor71.pathfinder.common.attributes.IAttributeManager;
 import com.mendor71.pathfinder.common.attributes.PersonifiedAttributeManager;
 import com.mendor71.pathfinder.common.exceptions.CharacterRaceNotSetException;
@@ -13,10 +13,9 @@ import com.mendor71.pathfinder.common.pathfinderclasses.CharacterClass;
 import com.mendor71.pathfinder.common.pathfinderclasses.CharacterClassDetails;
 import com.mendor71.pathfinder.common.pathfinderclasses.IClassManager;
 import com.mendor71.pathfinder.common.pathfinderclasses.PersonifiedClassManager;
-import com.mendor71.pathfinder.common.races.ElfRace;
 import com.mendor71.pathfinder.common.races.RaceManager;
 import com.mendor71.pathfinder.common.races.Races;
-import com.mendor71.pathfinder.common.skills.CharacterSkillDetails;
+import com.mendor71.pathfinder.common.skills.CharacterSkill;
 import com.mendor71.pathfinder.common.skills.ISkillManager;
 import com.mendor71.pathfinder.common.skills.PersonifiedSkillManager;
 import com.mendor71.pathfinder.common.skills.SimpleSkillProvider;
@@ -56,24 +55,24 @@ public class SerializationTest {
         IAttributeManager attributeManager = new PersonifiedAttributeManager(characterBase.getUuid());
         ISkillManager skillManager = new PersonifiedSkillManager(characterBase.getUuid());
 
-        Set<CharacterAttributeDetails> characterAttributeDetails = new HashSet<>();
-        characterAttributeDetails.add(new CharacterAttributeDetails(AttributeType.ENDURANCE, 14));
-        characterAttributeDetails.add(new CharacterAttributeDetails(AttributeType.STRENGTH, 16));
-        characterAttributeDetails.add(new CharacterAttributeDetails(AttributeType.AGILITY, 12));
-        characterAttributeDetails.add(new CharacterAttributeDetails(AttributeType.WISDOM, 10));
-        characterAttributeDetails.add(new CharacterAttributeDetails(AttributeType.INTELLIGENCE, 10));
-        characterAttributeDetails.add(new CharacterAttributeDetails(AttributeType.CHARISMA, 12));
+        Set<CharacterAttribute> characterAttributeDetails = new HashSet<>();
+        characterAttributeDetails.add(new CharacterAttribute(AttributeType.ENDURANCE, 14));
+        characterAttributeDetails.add(new CharacterAttribute(AttributeType.STRENGTH, 16));
+        characterAttributeDetails.add(new CharacterAttribute(AttributeType.AGILITY, 12));
+        characterAttributeDetails.add(new CharacterAttribute(AttributeType.WISDOM, 10));
+        characterAttributeDetails.add(new CharacterAttribute(AttributeType.INTELLIGENCE, 10));
+        characterAttributeDetails.add(new CharacterAttribute(AttributeType.CHARISMA, 12));
 
         Set<CharacterClassDetails> characterClassDetails = new HashSet<>();
         characterClassDetails.add(new CharacterClassDetails(CharacterClass.getInstance(ClassType.FIGHTER), 4));
         characterClassDetails.add(new CharacterClassDetails(CharacterClass.getInstance(ClassType.RANGER), 3));
 
-        Set<CharacterSkillDetails> skillSet = new HashSet<>();
+        Set<CharacterSkill> skillSet = new HashSet<>();
         SimpleSkillProvider skillProvider = SimpleSkillProvider.getInstance();
 
-        skillSet.add(new CharacterSkillDetails(skillProvider.getSkillByType(SkillType.Survival)));
-        skillSet.add(new CharacterSkillDetails(skillProvider.getSkillByType(SkillType.DisableDevice)));
-        skillSet.add(new CharacterSkillDetails(skillProvider.getSkillByType(SkillType.Heal)));
+        skillSet.add(new CharacterSkill(skillProvider.getSkillByType(SkillType.Survival)));
+        skillSet.add(new CharacterSkill(skillProvider.getSkillByType(SkillType.DisableDevice)));
+        skillSet.add(new CharacterSkill(skillProvider.getSkillByType(SkillType.Heal)));
 
         testCharacter = Character.newBuilder()
             .manageAttributes(attributeManager, characterAttributeDetails)

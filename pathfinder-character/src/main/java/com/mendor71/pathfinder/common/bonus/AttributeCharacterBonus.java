@@ -1,7 +1,7 @@
 package com.mendor71.pathfinder.common.bonus;
 
 import com.mendor71.pathfinder.common.Character;
-import com.mendor71.pathfinder.common.attributes.CharacterAttributeDetails;
+import com.mendor71.pathfinder.common.attributes.CharacterAttribute;
 import com.mendor71.pathfinder.common.types.AttributeType;
 
 public class AttributeCharacterBonus extends AbstractCharacterBonus implements ICharacterBonus {
@@ -18,7 +18,7 @@ public class AttributeCharacterBonus extends AbstractCharacterBonus implements I
 
     @Override
     public void apply(Character character) {
-        CharacterAttributeDetails attributeDetails = character.getAttributeByTypeOrThrowException(type);
+        CharacterAttribute attributeDetails = character.getAttributeByTypeOrThrowException(type);
         if (temporary)
             attributeDetails.increaseTempValueBonus(value);
         else

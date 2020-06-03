@@ -1,7 +1,7 @@
 package com.mendor71.pathfinder.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.mendor71.pathfinder.common.attributes.CharacterAttributeDetails;
+import com.mendor71.pathfinder.common.attributes.CharacterAttribute;
 import com.mendor71.pathfinder.common.attributes.IAttributeManager;
 import com.mendor71.pathfinder.common.bonus.ICharacterBonus;
 import com.mendor71.pathfinder.common.exceptions.CharacterSkillAlreadyExistsException;
@@ -10,7 +10,7 @@ import com.mendor71.pathfinder.common.exceptions.NotEnoughSkillPointsException;
 import com.mendor71.pathfinder.common.pathfinderclasses.CharacterClassDetails;
 import com.mendor71.pathfinder.common.pathfinderclasses.IClassManager;
 import com.mendor71.pathfinder.common.races.IRace;
-import com.mendor71.pathfinder.common.skills.CharacterSkillDetails;
+import com.mendor71.pathfinder.common.skills.CharacterSkill;
 import com.mendor71.pathfinder.common.skills.ISkillManager;
 import com.mendor71.pathfinder.common.types.AttributeType;
 import com.mendor71.pathfinder.common.types.ClassType;
@@ -125,22 +125,22 @@ public class Character implements ICharacter {
     }
 
     @Override
-    public Set<CharacterAttributeDetails> getCharacterAttributes() {
+    public Set<CharacterAttribute> getCharacterAttributes() {
         return attributeManager.getCharacterAttributes();
     }
 
     @Override
-    public void setAttributesOnControl(Set<CharacterAttributeDetails> controlObjects) {
+    public void setAttributesOnControl(Set<CharacterAttribute> controlObjects) {
         attributeManager.setAttributesOnControl(controlObjects);
     }
 
     @Override
-    public CharacterAttributeDetails getAttributeDetails(AttributeType type) {
+    public CharacterAttribute getAttributeDetails(AttributeType type) {
         return attributeManager.getAttributeDetails(type);
     }
 
     @Override
-    public CharacterAttributeDetails getAttributeByTypeOrThrowException(AttributeType type) throws IllegalStateException {
+    public CharacterAttribute getAttributeByTypeOrThrowException(AttributeType type) throws IllegalStateException {
         return attributeManager.getAttributeByTypeOrThrowException(type);
     }
 
@@ -209,7 +209,7 @@ public class Character implements ICharacter {
     }
 
     @Override
-    public void setSkillsOnControl(Set<CharacterSkillDetails> skillDetails) {
+    public void setSkillsOnControl(Set<CharacterSkill> skillDetails) {
         skillManager.setSkillsOnControl(skillDetails);
     }
 
@@ -224,12 +224,12 @@ public class Character implements ICharacter {
     }
 
     @Override
-    public CharacterSkillDetails getCharacterSkillDetails(SkillType type) throws CharacterSkillListIllegalStateException {
+    public CharacterSkill getCharacterSkillDetails(SkillType type) throws CharacterSkillListIllegalStateException {
         return skillManager.getCharacterSkillDetails(type);
     }
 
     @Override
-    public Set<CharacterSkillDetails> getCharacterSkillDetailsSet() {
+    public Set<CharacterSkill> getCharacterSkillDetailsSet() {
         return skillManager.getCharacterSkillDetailsSet();
     }
 
@@ -264,7 +264,7 @@ public class Character implements ICharacter {
     }
 
     @Override
-    public CharacterSkillDetails getCharacterSkillDetailsByTypeOrThrowException(SkillType type) throws CharacterSkillListIllegalStateException {
+    public CharacterSkill getCharacterSkillDetailsByTypeOrThrowException(SkillType type) throws CharacterSkillListIllegalStateException {
         return skillManager.getCharacterSkillDetailsByTypeOrThrowException(type);
     }
 
@@ -328,7 +328,7 @@ public class Character implements ICharacter {
             return Character.this.characterBase.getUuid();
         }
 
-        public Builder manageAttributes(IAttributeManager attributeManager, Set<CharacterAttributeDetails> attributeDetails) {
+        public Builder manageAttributes(IAttributeManager attributeManager, Set<CharacterAttribute> attributeDetails) {
             Character.this.attributeManager = attributeManager;
             Character.this.attributeManager.setAttributesOnControl(attributeDetails);
             return this;
@@ -340,7 +340,7 @@ public class Character implements ICharacter {
             return this;
         }
 
-        public Builder manageSkills(ISkillManager skillManager, Set<CharacterSkillDetails> skillDetails) {
+        public Builder manageSkills(ISkillManager skillManager, Set<CharacterSkill> skillDetails) {
             Character.this.skillManager = skillManager;
             Character.this.skillManager.setSkillsOnControl(skillDetails);
             return this;

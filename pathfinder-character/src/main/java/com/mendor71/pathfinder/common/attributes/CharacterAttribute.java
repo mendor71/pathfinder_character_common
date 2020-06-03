@@ -5,7 +5,7 @@ import com.mendor71.pathfinder.common.types.AttributeType;
 
 import java.util.*;
 
-public class CharacterAttributeDetails implements IAttributeNotifier {
+public class CharacterAttribute implements IAttributeNotifier {
 
     private Long id;
     private AttributeType type;
@@ -16,10 +16,10 @@ public class CharacterAttributeDetails implements IAttributeNotifier {
 
     private Set<IAttributeListener> listenersList = new HashSet<>();
 
-    public CharacterAttributeDetails() {
+    public CharacterAttribute() {
     }
 
-    public CharacterAttributeDetails(AttributeType type, long value) {
+    public CharacterAttribute(AttributeType type, long value) {
         this.type = type;
         this.value = value;
         calculateModifier();
@@ -29,7 +29,7 @@ public class CharacterAttributeDetails implements IAttributeNotifier {
         return id == null ? -1 : id;
     }
 
-    public CharacterAttributeDetails setId(Long id) {
+    public CharacterAttribute setId(Long id) {
         this.id = id;
         return this;
     }

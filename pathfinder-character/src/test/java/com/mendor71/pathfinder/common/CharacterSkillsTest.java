@@ -1,8 +1,7 @@
 package com.mendor71.pathfinder.common;
 
-import com.mendor71.pathfinder.common.attributes.CharacterAttributeDetails;
+import com.mendor71.pathfinder.common.attributes.CharacterAttribute;
 import com.mendor71.pathfinder.common.skills.CharacterSkill;
-import com.mendor71.pathfinder.common.skills.CharacterSkillDetails;
 import com.mendor71.pathfinder.common.skills.SimpleSkillProvider;
 import com.mendor71.pathfinder.common.types.AttributeType;
 import com.mendor71.pathfinder.common.types.SkillType;
@@ -15,13 +14,13 @@ import static junit.framework.TestCase.assertEquals;
 
 @RunWith(JUnit4.class)
 public class CharacterSkillsTest {
-    private CharacterSkillDetails skillDetails;
-    private CharacterAttributeDetails attributeDetails;
+    private CharacterSkill skillDetails;
+    private CharacterAttribute attributeDetails;
 
     @Before
     public void before() {
-        skillDetails = new CharacterSkillDetails(SimpleSkillProvider.getInstance().getSkillByType(SkillType.Survival));
-        attributeDetails = new CharacterAttributeDetails(AttributeType.WISDOM, 10);
+        skillDetails = new CharacterSkill(SimpleSkillProvider.getInstance().getSkillByType(SkillType.Survival));
+        attributeDetails = new CharacterAttribute(AttributeType.WISDOM, 10);
         attributeDetails.addListener(skillDetails);
     }
 

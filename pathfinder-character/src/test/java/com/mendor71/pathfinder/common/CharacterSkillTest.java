@@ -1,6 +1,6 @@
 package com.mendor71.pathfinder.common;
 
-import com.mendor71.pathfinder.common.skills.CharacterSkillDetails;
+import com.mendor71.pathfinder.common.skills.CharacterSkill;
 import com.mendor71.pathfinder.common.skills.SimpleSkillProvider;
 import com.mendor71.pathfinder.common.types.SkillType;
 import org.junit.Test;
@@ -10,20 +10,8 @@ import org.junit.runners.JUnit4;
 import static org.junit.Assert.*;
 
 @RunWith(JUnit4.class)
-public class CharacterSkillDetailsTest {
-    private CharacterSkillDetails details = new CharacterSkillDetails(SimpleSkillProvider.getInstance().getSkillByType(SkillType.Acrobatics), 5);
-
-    /*private long id;
-
-    ;
-    private PathfinderCharacter character;
-
-    private long trainedPoints;
-    private long modifier;
-    private long bonus;
-
-    private long temporarySkillValueModifier = 0;*/
-
+public class CharacterSkillTest {
+    private CharacterSkill details = new CharacterSkill(SimpleSkillProvider.getInstance().getSkillByType(SkillType.Acrobatics), 5);
 
     @Test
     public void testIncreaseTrainedPoints() {

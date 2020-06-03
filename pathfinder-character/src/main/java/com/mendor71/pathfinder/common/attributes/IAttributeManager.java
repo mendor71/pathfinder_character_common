@@ -10,8 +10,8 @@ public interface IAttributeManager {
     long getAttributeModifier(AttributeType type) throws IllegalStateException;
     long increaseAttributeValue(AttributeType type, long bonus);
     long decreaseAttributeValue(AttributeType type, long minus);
-    Set<CharacterAttributeDetails> getCharacterAttributes();
-    void setAttributesOnControl(Set<CharacterAttributeDetails> controlObjects);
-    public CharacterAttributeDetails getAttributeDetails(AttributeType type);
-    public CharacterAttributeDetails getAttributeByTypeOrThrowException(AttributeType type) throws IllegalStateException;
+    Set<CharacterAttribute> getCharacterAttributes();
+    void setAttributesOnControl(Set<CharacterAttribute> controlObjects);
+    public CharacterAttribute getAttributeDetails(AttributeType type);
+    public CharacterAttribute getAttributeByTypeOrThrowException(AttributeType type) throws IllegalStateException;
 }

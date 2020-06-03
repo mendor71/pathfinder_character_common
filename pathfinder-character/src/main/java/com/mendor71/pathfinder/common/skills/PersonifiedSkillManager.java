@@ -12,7 +12,7 @@ import java.util.Set;
 
 public class PersonifiedSkillManager implements ISkillManager {
     private String characterId;
-    private Map<SkillType, CharacterSkillDetails> skillMap = new EnumMap<>(SkillType.class);
+    private Map<SkillType, CharacterSkill> skillMap = new EnumMap<>(SkillType.class);
     private Set<SkillType> classSkills;
     private long sumSkillPoints;
     private long usedSkillPoints;
@@ -22,7 +22,7 @@ public class PersonifiedSkillManager implements ISkillManager {
         this.characterId = characterId;
     }
 
-    public PersonifiedSkillManager(String characterId, Set<CharacterSkillDetails> skillDetails) {
+    public PersonifiedSkillManager(String characterId, Set<CharacterSkill> skillDetails) {
         this(characterId);
         setSkillsOnControl(skillDetails);
     }
@@ -37,16 +37,16 @@ public class PersonifiedSkillManager implements ISkillManager {
     }
 
     @Override
-    public void setSkillsOnControl(Set<CharacterSkillDetails> skillDetails) {
+    public void setSkillsOnControl(Set<CharacterSkill> skillDetails) {
         skillDetails.forEach(skill ->  { if (!skillMap.containsKey(skill.getSkillType())) skillMap.put(skill.getSkillType(), skill); });
-        this.usedSkillPoints = skillDetails.stream().mapToLong(CharacterSkillDetails::getTrainedPoints).sum();
+        this.usedSkillPoints = skillDetails.stream().mapToLong(CharacterSkill::getTrainedPoints).sum();
     }
 
     @Override
     public void addCharacterSkill(SkillType type, long trainedPoints) throws CharacterSkillAlreadyExistsException {
         if (skillMap.containsKey(type))
             throw new CharacterSkillAlreadyExistsException("Character " + this.characterId + " already has skill " + type);
-        skillMap.put(type, new CharacterSkillDetails(SimpleSkillProvider.getInstance().getSkillByType(type), trainedPoints));
+        skillMap.put(type, new CharacterSkill(SimpleSkillProvider.getInstance().getSkillByType(type), trainedPoints));
     }
 
     @Override
@@ -55,12 +55,12 @@ public class PersonifiedSkillManager implements ISkillManager {
     }
 
     @Override
-    public CharacterSkillDetails getCharacterSkillDetails(SkillType type) throws CharacterSkillListIllegalStateException {
+    public CharacterSkill getCharacterSkillDetails(SkillType type) throws CharacterSkillListIllegalStateException {
        return getCharacterSkillDetailsByTypeOrThrowException(type);
     }
 
     @Override
-    public Set<CharacterSkillDetails> getCharacterSkillDetailsSet() {
+    public Set<CharacterSkill> getCharacterSkillDetailsSet() {
         return new HashSet<>(skillMap.values());
     }
 
@@ -76,7 +76,7 @@ public class PersonifiedSkillManager implements ISkillManager {
             if (skillMap.containsKey(type)) {
                 newValue = skillMap.get(type).increaseTrainedPoints(value, classSkills.contains(type));
             } else {
-                skillMap.put(type, new CharacterSkillDetails(SimpleSkillProvider.getInstance().getSkillByType(type)));
+                skillMap.put(type, new CharacterSkill(SimpleSkillProvider.getInstance().getSkillByType(type)));
                 trainSkill(type, value);
             }
             freeSkillPoints -= value;
@@ -162,7 +162,7 @@ public class PersonifiedSkillManager implements ISkillManager {
     }
 
     @Override
-    public CharacterSkillDetails getCharacterSkillDetailsByTypeOrThrowException(SkillType type) throws CharacterSkillListIllegalStateException {
+    public CharacterSkill getCharacterSkillDetailsByTypeOrThrowException(SkillType type) throws CharacterSkillListIllegalStateException {
         if (!skillMap.containsKey(type))
             throw new CharacterSkillListIllegalStateException("Skill details list for character: " + characterId + " must contains exactly one skill with type " + type);
         return skillMap.get(type);

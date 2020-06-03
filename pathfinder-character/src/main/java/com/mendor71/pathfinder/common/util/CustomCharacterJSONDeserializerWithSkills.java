@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.mendor71.pathfinder.common.skills.Skill;
 import com.mendor71.pathfinder.common.skills.CharacterSkill;
-import com.mendor71.pathfinder.common.skills.CharacterSkillDetails;
 import com.mendor71.pathfinder.common.skills.PersonifiedSkillManager;
 import com.mendor71.pathfinder.common.skills.SimpleSkillProvider;
 import com.mendor71.pathfinder.common.types.SkillType;
@@ -33,7 +33,7 @@ public class CustomCharacterJSONDeserializerWithSkills extends CustomCharacterJS
     @Override
     public Character.Builder deserialize(JsonParser parser, DeserializationContext context) throws IOException {
         Character.Builder builder = baseDeserializer.deserialize(parser, context);
-        Set<CharacterSkillDetails> detailsSet = new HashSet<>();
+        Set<CharacterSkill> detailsSet = new HashSet<>();
 
         JsonNode root = getRoot();
         JsonNode skills = root.get("skills");
@@ -43,8 +43,8 @@ public class CustomCharacterJSONDeserializerWithSkills extends CustomCharacterJS
         for (JsonNode skill: list) {
             SkillType type = SkillType.byName(skill.get("type").asText());
 
-            CharacterSkill s = SimpleSkillProvider.getInstance().getSkillByType(type);
-            CharacterSkillDetails skillDetails = new CharacterSkillDetails();
+            Skill s = SimpleSkillProvider.getInstance().getSkillByType(type);
+            CharacterSkill skillDetails = new CharacterSkill();
 
             skillDetails.setSkill(s);
             skillDetails.setTrainedPoints(skill.get("trainedPoints").longValue());

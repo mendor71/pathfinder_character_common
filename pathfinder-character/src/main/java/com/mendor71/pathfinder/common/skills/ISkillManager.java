@@ -3,7 +3,6 @@ package com.mendor71.pathfinder.common.skills;
 import com.mendor71.pathfinder.common.exceptions.CharacterSkillAlreadyExistsException;
 import com.mendor71.pathfinder.common.exceptions.CharacterSkillListIllegalStateException;
 import com.mendor71.pathfinder.common.exceptions.NotEnoughSkillPointsException;
-import com.mendor71.pathfinder.common.types.ClassType;
 import com.mendor71.pathfinder.common.types.SkillType;
 
 import java.util.Set;
@@ -11,15 +10,15 @@ import java.util.Set;
 public interface ISkillManager {
     void setClassSkills(Set<SkillType> classSkills);
 
-    void setSkillsOnControl(Set<CharacterSkillDetails> skillDetails);
+    void setSkillsOnControl(Set<CharacterSkill> skillDetails);
 
     void addCharacterSkill(SkillType type, long trainedPoints) throws CharacterSkillAlreadyExistsException;
 
     void addCharacterSkill(SkillType type) throws CharacterSkillAlreadyExistsException;
 
-    CharacterSkillDetails getCharacterSkillDetails(SkillType type) throws CharacterSkillListIllegalStateException;
+    CharacterSkill getCharacterSkillDetails(SkillType type) throws CharacterSkillListIllegalStateException;
 
-    Set<CharacterSkillDetails> getCharacterSkillDetailsSet();
+    Set<CharacterSkill> getCharacterSkillDetailsSet();
 
     boolean containsCharacterSkill(SkillType type);
 
@@ -51,5 +50,5 @@ public interface ISkillManager {
 
     long getSkillTemporaryModiferValue(SkillType type);
 
-    CharacterSkillDetails getCharacterSkillDetailsByTypeOrThrowException(SkillType type) throws IllegalStateException, CharacterSkillListIllegalStateException;
+    CharacterSkill getCharacterSkillDetailsByTypeOrThrowException(SkillType type) throws IllegalStateException, CharacterSkillListIllegalStateException;
 }
