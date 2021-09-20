@@ -10,4 +10,6 @@ public class WelcomeController {
     public String hello() {
         return "welcome";
     }
+
+    // some comment
 }
